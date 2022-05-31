@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "982768027689",
+    "project_id": "flutter-receive-sms",
+    "storage_bucket": "flutter-receive-sms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982768027689:android:afd5ef4bc9df1738c0f438",
+        "android_client_info": {
+          "package_name": "top.receivesms.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982768027689-lhr73492s19pbdk1efqp2pg9kp6d6u38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "top.receivesms.app",
+            "certificate_hash": "f58702cf6b4d3c98b62a0ae5fe503fea3aaf51b9"
+          }
+        },
+        {
+          "client_id": "982768027689-o39hhdr69s5iqgj59gkpqcluej78hu8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrXW3o5HzvBmbYm7-dHsNMsOnvxoPksYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982768027689-o39hhdr69s5iqgj59gkpqcluej78hu8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
