@@ -29,10 +29,9 @@ class MyView extends GetView<MyController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          log(Api.baseUrlBak);
-          Api.baseUrlBak = '1';
-          log(Api.baseUrlBak);
-
+          log(RemoteConfigApi().getString('baseUrl'));
+          await RemoteConfigApi().fetchAndActivate(minimumFetchInterval: true);
+          log(RemoteConfigApi().getString('baseUrl'));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
@@ -211,8 +210,9 @@ class MyView extends GetView<MyController> {
                           isDestructiveAction: true,
                         );
                         if (dialog == OkCancelResult.ok) {
-                          SecureStorage().del(deleteAll: true).then((value) {
+                          SecureStorage().del(deleteAll: true).then((value) async {
                             //Tools.toast('缓存清理成功'.tr);
+                            await RemoteConfigApi().fetchAndActivate(minimumFetchInterval: true);
                             Restart.restartApp();
                           });
                         }

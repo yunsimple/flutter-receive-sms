@@ -13,6 +13,6 @@ const int ADMOB_OPENAPPAD_TIME_INTERVAAL = 60*1000;
 const int FIREBASE_TIMEOUT = 10;
 
 // 匿名邮件自动请求次数
-const int EMAIL_AUTO_REQUEST_NUMBER = 5;
+const int EMAIL_AUTO_REQUEST_NUMBER = 10;
 // 匿名邮件自动等待延时秒数
 const int EMAIL_AUTO_DELAY_SECOND = 5;

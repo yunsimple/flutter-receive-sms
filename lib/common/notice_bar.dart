@@ -63,7 +63,7 @@ class _NoticeBar extends State<NoticeBar> {
   void initState() {
     scrollController = ScrollController();
     if (widget.scrollable) {
-      WidgetsBinding.instance!.addPostFrameCallback(_onLayoutDone);
+      WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
     }
     super.initState();
   }

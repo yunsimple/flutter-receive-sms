@@ -4,7 +4,7 @@ import '../../common/admob.dart';
 import '../../utils/tools.dart';
 import 'package:get/get.dart';
 import 'email_detail_controller.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class EmailDetailView extends GetView<EmailDetailController> {
   const EmailDetailView({Key? key}) : super(key: key);

@@ -27,7 +27,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   void onInit() async {
     log('HomeController onInit');
     super.onInit();
-    WidgetsBinding.instance?.addObserver(this); // 开屏广告 1.
+    WidgetsBinding.instance.addObserver(this); // 开屏广告 1.
     isMyBadgeShow.value = LocalStorage().getBool('isMyBadgeShow') ?? false;
     try {
       HttpUtils.post(Api.newPhone).then((response) {
@@ -47,7 +47,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     super.onClose();
-    WidgetsBinding.instance?.removeObserver(this); // 开屏广告 3.
+    WidgetsBinding.instance.removeObserver(this); // 开屏广告 3.
   }
 
   @override

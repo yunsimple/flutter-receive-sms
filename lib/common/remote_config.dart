@@ -30,6 +30,7 @@ class RemoteConfigApi {
     await config.setDefaults(const {
       /// todo rk需不需要默认
       //'rk': 'SsCF5poAfNB4frq5',
+      'baseUrl': 'https://api.receivesms.top/',
       'adSwitch':
           '{"adSwitchBanner":true,"adSwitchInterstitial":true,"adSwitchNative":true,"adSwitchOpenApp":true,"adSwitchRewarded":true,"nativeSize":"random"}',
       'noticeSwitch': true,
@@ -42,15 +43,9 @@ class RemoteConfigApi {
     });
 
     //从服务器获取新数据并激活值
-    //log("等待完成fetchAndActivate", time: true);
     if (config.lastFetchStatus == RemoteConfigFetchStatus.noFetchYet) {
       // 第一次启动时
-      await config.fetchAndActivate()
-          //.then((value) => log("Remote Config fetchAndActivate激活完成，可以使用", icon: 'ok', time: true))
-          .catchError((onError) {
-        Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 10);
-        //log("Remote Config激活失败 = $onError", icon: 'error');
-      });
+      fetchAndActivate();
     } else {
       // 第N次启动时
       await config.activate()
@@ -58,6 +53,24 @@ class RemoteConfigApi {
           //.catchError((onError) => log("Remote Config激活失败 = $onError", icon: 'error'))
           ;
     }
+  }
+
+  Future<void> fetchAndActivate({bool minimumFetchInterval = false}) async{
+    if(minimumFetchInterval){
+      //设置超时时间
+      await config.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: FIREBASE_TIMEOUT),
+        /// 生产模式，这里的值需要更改
+        minimumFetchInterval: const Duration(seconds: 1),
+      ));
+    }
+
+    await config.fetchAndActivate()
+    //.then((value) => log("Remote Config fetchAndActivate激活完成，可以使用", icon: 'ok', time: true))
+        .catchError((onError) {
+      Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 10);
+      //log("Remote Config激活失败 = $onError", icon: 'error');
+    });
   }
 
   void fetch() {

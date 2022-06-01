@@ -30,7 +30,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashState extends State<SplashView> {
   //倒计时起始时间
-  int _countTime = 5;
+  int _countTime = 8;
   //计时器
   late Timer _timer;
   String hintTitle = '加载中'.tr;
@@ -75,10 +75,15 @@ class _SplashState extends State<SplashView> {
     HttpUtils.init(
       baseUrl: Api.baseUrl,
     );
-    //log('HttpUtils 初始化完成');
 
     // 初始化RemoteConfig
     await RemoteConfigApi().init();
+
+    // 远程配置api请求地址
+    String url = RemoteConfigApi().getString('baseUrl');
+    if(url != ''){
+      Api.baseUrl = url;
+    }
 
     if(mounted){
       setState(() {
@@ -87,13 +92,7 @@ class _SplashState extends State<SplashView> {
     }
 
     // 初始化密钥
-    bool key = await Auth().getSalt();
-    if(key){
-      complete++;
-      if(complete == 2){
-        Get.offNamed(Routes.home);
-      }
-    }
+    await Auth().getSalt();
 
     if(mounted){
       setState(() {

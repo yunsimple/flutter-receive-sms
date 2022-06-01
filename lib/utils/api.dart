@@ -2,7 +2,6 @@ class Api {
   //base Url
   //static const String baseUrl = "http://43.154.50.161:1666/";
   static String baseUrl = 'http://192.168.2.66/';
-  static String baseUrlBak = 'http://127.0.0.1/';
 
   static final String getPhone = baseUrl + "phone";
   static final String getCountry = baseUrl + "country";
