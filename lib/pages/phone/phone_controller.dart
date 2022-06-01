@@ -68,8 +68,11 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
             phoneList.clear();
             isAdShowList = [].obs;
           }
-
-          var data = Tools.insertNativeAd(dataList: response['data'], insertIndex: insertIndex);
+          List phoneListData = response["data"];
+          phoneListData.sort((left, right){
+            return right['last_time'].compareTo(left['last_time']);
+          });
+          var data = Tools.insertNativeAd(dataList: phoneListData, insertIndex: insertIndex);
 
           phoneList.addAll(data);
 

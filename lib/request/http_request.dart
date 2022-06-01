@@ -5,6 +5,7 @@ import '../../request/interceptor/dio_logger.dart';
 import '../../request/interceptor/error.dart';
 import '../../request/interceptor/request.dart';
 import '../../request/interceptor/response.dart';
+import '../utils/config.dart';
 
 class Http {
   static final Http _instance = Http._internal();
@@ -61,8 +62,8 @@ class Http {
   // [interceptors] 基础拦截器
   void init({
     String? baseUrl,
-    int connectTimeout = 10000,
-    int receiveTimeout = 10000,
+    int connectTimeout = HTTP_TIMEOUT,
+    int receiveTimeout = HTTP_TIMEOUT,
     Map<String, String>? headers,
     List<Interceptor>? interceptors,
   }) {

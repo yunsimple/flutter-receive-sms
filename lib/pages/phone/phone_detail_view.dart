@@ -38,9 +38,11 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
       body: EasyRefresh.custom(
         emptyWidget: null,
         onRefresh: _onRefresh,
-        onLoad: controller.isLoad == false ? null : () async {
-          _onLoad();
-        },
+        onLoad: controller.isLoad == false
+            ? null
+            : () async {
+                _onLoad();
+              },
         slivers: [
 /*          SliverAppBar(
             title: Text(controller.phone),
@@ -58,131 +60,19 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                 child: emptyPageWidget(),
               );
             }
-            // 根据type，显示不同的widget
-            if (controller.numberType.value == 1) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return _message(context, index);
-                  },
-                  childCount: controller.messageList.length,
-                ),
-              );
-            } else if (controller.numberType.value == 2) {
+            if (controller.isLoading.isTrue) {
               return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                child: Center(
                   child: Column(
-                    children: [
-                      Text(controller.countdownTitle.value),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                        child: SlideCountdownSeparated(
-                          duration: Duration(seconds: controller.upcomingSecond),
-                          height: 60,
-                          width: 60,
-                          textStyle: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-                          onDone: () {
-                            controller.countdownTitle.value = '加载中'.tr + '...';
-                            _onRefresh();
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      controller.isMiddleBannerShow.isTrue ? bannerAd() : Container(),
+                    children: const [
+                      SizedBox(height: 50,),
+                      CircularProgressIndicator(),
                     ],
                   ),
                 ),
               );
             } else {
-              return SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      '金币数量'.tr +': ${controller.coins.value}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 15,),
-                    SizedBox(
-                      height: 40,
-                      child: LoadingButton(
-                        title: '使用号码'.tr + ' (-${controller.price.value})',
-                        color: Colors.blue[800],
-                        onPress: () async {
-                          bool isBuy = await controller.buyVipNumber();
-                          if (isBuy) {
-                            _onRefresh();
-                          }
-                        },
-                        icon: PhosphorIcons.shopping_cart_simple,
-                      ),
-/*                      child: ElevatedButton(
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[800])),
-                        child: Text('使用号码'.tr + ' (-${controller.price.value})'),
-                        onPressed: () async {
-                          bool isBuy = await controller.buyVipNumber();
-                          if (isBuy) {
-                            _onRefresh();
-                          }
-                        },
-                      ),*/
-                    ),
-                    const SizedBox(height: 10,),
-                    Badge(
-                      shape: BadgeShape.square,
-                      borderRadius: BorderRadius.circular(2),
-                      position: BadgePosition.topEnd(top: -12, end: -20),
-                      padding: const EdgeInsets.all(2),
-                      badgeColor: Colors.red,
-                      badgeContent: const Text(
-                        'hot',
-                        style: TextStyle(
-                            color: Colors.white, fontSize: 15),
-                      ),
-                      child: SizedBox(
-                        height: 50,
-                        child: LoadingButton(
-                          title: '观看广告获得奖励'.tr + ' (+${controller.rewardCoins})',
-                          onPress: () async {
-
-                            if(Admob().rewardedAd == null){
-                              await Future.delayed(const Duration(seconds: 2));
-                            }else{
-                              Admob().showRewarded();
-                            }
-                          },
-                          icon: PhosphorIcons.video_camera,
-                        ),
-/*                        child: ElevatedButton(
-                          child: Text(
-                              '观看广告获得奖励'.tr + ' (+${controller.rewardCoins})',
-                          ),
-                          onPressed: () async {
-                            Admob().getRewarded('rewarded_coins',isPreload: false);
-                            //Admob().getRewardedInterstitial('rewarded_interstitial_coins', isPreload: false);
-                          },
-                        ),*/
-                      ),
-                    ),
-                    const SizedBox(height: 3,),
-                    AutoSizeText(
-                        '仅需支付一次,成功后下次可直接使用'.tr,
-                        style: const TextStyle(fontSize: 12,color: Colors.grey),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    controller.isMiddleBannerShow.isTrue ? bannerAd() : Container(),
-                  ],
-                ),
-              );
+              return _selectTypeMessage();
             }
           }),
         ],
@@ -217,6 +107,120 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
             : const SizedBox();
       }),
     );
+  }
+
+  _selectTypeMessage() {
+    // 根据type，显示不同的widget
+    if (controller.numberType.value == 1) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return _message(context, index);
+          },
+          childCount: controller.messageList.length,
+        ),
+      );
+    } else if (controller.numberType.value == 2) {
+      return SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Column(
+            children: [
+              Text(controller.countdownTitle.value),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: SlideCountdownSeparated(
+                  duration: Duration(seconds: controller.upcomingSecond),
+                  height: 60,
+                  width: 60,
+                  textStyle: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+                  onDone: () {
+                    controller.countdownTitle.value = '加载中'.tr + '...';
+                    _onRefresh();
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              controller.isMiddleBannerShow.isTrue ? bannerAd() : Container(),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SliverToBoxAdapter(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              '金币数量'.tr + ': ${controller.coins.value}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              height: 40,
+              child: LoadingButton(
+                title: '使用号码'.tr + ' (-${controller.price.value})',
+                color: Colors.blue[800],
+                onPress: () async {
+                  bool isBuy = await controller.buyVipNumber();
+                  if (isBuy) {
+                    _onRefresh();
+                  }
+                },
+                icon: PhosphorIcons.shopping_cart_simple,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Badge(
+              shape: BadgeShape.square,
+              borderRadius: BorderRadius.circular(2),
+              position: BadgePosition.topEnd(top: -12, end: -20),
+              padding: const EdgeInsets.all(2),
+              badgeColor: Colors.red,
+              badgeContent: const Text(
+                'hot',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: LoadingButton(
+                  title: '观看广告获得奖励'.tr + ' (+${controller.rewardCoins})',
+                  onPress: () async {
+                    if (Admob().rewardedAd == null) {
+                      await Future.delayed(const Duration(seconds: 2));
+                    } else {
+                      Admob().showRewarded();
+                    }
+                  },
+                  icon: PhosphorIcons.video_camera,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 3,
+            ),
+            AutoSizeText(
+              '仅需支付一次,成功后下次可直接使用'.tr,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            controller.isMiddleBannerShow.isTrue ? bannerAd() : Container(),
+          ],
+        ),
+      );
+    }
   }
 
   ///顶部card
@@ -384,7 +388,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
           child: Column(
             children: [
               Obx(() {
-                if(index < 20){
+                if (index < 20) {
                   return Container(
                     child: controller.isAdShowList.contains(index)
                         ? AdWidget(ad: controller.messageList[index])
@@ -397,7 +401,9 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                 }
                 return Container(
                   child: AdWidget(ad: controller.messageList[index]),
-                  height: controller.messageList[index].factoryId == 'nativeBigAd' ? 340.0 : 120.0, // big 340.0 small 120.0,
+                  height: controller.messageList[index].factoryId == 'nativeBigAd'
+                      ? 340.0
+                      : 120.0, // big 340.0 small 120.0,
                   alignment: Alignment.center,
                 );
               }),
@@ -408,8 +414,27 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
       );
       return ad;
     }
-    // message列表
-    var message = Padding(
+
+    // 显示短信项目
+    String smsNumber = controller.messageList[index]['smsNumber'];
+    String url = controller.messageList[index]['url'];
+    String project;
+    if (url != '') {
+      project = url;
+    } else {
+      if (double.tryParse(smsNumber) == null) {
+        project = smsNumber;
+      } else {
+        if (smsNumber.length > 6) {
+          project = '*' + smsNumber.substring(smsNumber.length - 6);
+        } else {
+          project = smsNumber;
+        }
+      }
+    }
+
+    /// message列表
+    Widget message = Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
@@ -440,7 +465,10 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                           size: 15,
                           color: Colors.grey,
                         ),
-                        Text(controller.messageList[index]['url'] ?? controller.messageList[index]['smsNumber'])
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text(project)
                       ],
                     ),
                     Text(Tools.timeHandler(controller.messageList[index]['smsDate']))
@@ -452,6 +480,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
         ),
       ),
     );
+
     return message;
   }
 

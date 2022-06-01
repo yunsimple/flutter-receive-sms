@@ -47,21 +47,22 @@ class Tools {
     int minLag = timeLag.inMinutes;
     int secLag = timeLag.inSeconds;
 
+    //log('$dayLag $hourLag $minLag $secLag');
 
     if (dayLag > 365) {
       return '${dayLag~/365} year ago';
     } else if (dayLag > 30 && dayLag <= 365){
       return '${dayLag~/30} month ago';
-    } else if (dayLag > 1 && dayLag <= 30){
+    } else if (dayLag >= 1 && dayLag <= 30){
       return '$dayLag day ago';
-    } else if (hourLag < 24 && hourLag > 1) {
+    } else if (hourLag < 24 && hourLag >= 1) {
       return "$hourLag hours ago";
     } else if (minLag > 0 && minLag < 60) {
       return "$minLag minutes ago";
     } else if (secLag > 0 && secLag < 60) {
       return "$secLag seconds ago";
     } else {
-      return "await";
+      return "just now";
     }
   }
 

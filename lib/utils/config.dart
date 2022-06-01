@@ -11,8 +11,11 @@ const int ADMOB_OPENAPPAD_TIME_INTERVAAL = 60*1000;
 
 // firebase 超时时间
 const int FIREBASE_TIMEOUT = 10;
-
+// dio请求超时时间 毫秒
+const int HTTP_TIMEOUT = 6000;
 // 匿名邮件自动请求次数
 const int EMAIL_AUTO_REQUEST_NUMBER = 10;
 // 匿名邮件自动等待延时秒数
 const int EMAIL_AUTO_DELAY_SECOND = 5;
+
+

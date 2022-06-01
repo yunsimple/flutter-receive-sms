@@ -160,7 +160,9 @@ class _SplashState extends State<SplashView> {
     });
 
     // 同步remote config 配置，供下次使用
-    RemoteConfigApi().fetch();
+    if(LocalStorage().getInt('startNumber')! > 1){
+      RemoteConfigApi().fetch();
+    }
   }
 
 

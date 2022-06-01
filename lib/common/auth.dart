@@ -230,16 +230,16 @@ class Auth{
   /// 存在refreshToken，直接获取accessToken即可
   /// 如果refreshToken不存在，则需要先 getToken
   Future<String?> getAccessToken() async{
-    //log('Begin getAccessToken');
+    log('Begin getAccessToken');
     String? refreshToken = await SecureStorage().read('refreshToken');
     if(refreshToken == null){
-      //log('refreshToken不存在，重新请求获取getToken');
+      log('refreshToken不存在，重新请求获取getToken');
       bool token = await getToken();
       if(!token){
         return null;
       }
       refreshToken = await SecureStorage().read('refreshToken');
-      //log('refreshToken = $refreshToken');
+      log('refreshToken = $refreshToken');
       if(refreshToken == null){
         return null;
       }
@@ -247,6 +247,7 @@ class Auth{
     /// 对refreshToken Aes 加密
     String key = await SecureStorage().read('ys');
     String iv = await SecureStorage().read('ysv');
+    log('安全存储 ys = $key ysv = $iv');
     final encrypt = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
     final refreshTokenAES = encrypt.encrypt(refreshToken,iv: IV.fromUtf8(iv));
     /// http request token，由于目前不存在加密
@@ -255,12 +256,13 @@ class Auth{
     int nowTime = DateTime.now().millisecondsSinceEpoch;
     try{
       return await TokenHttp().post(Api.access, {'token': refreshTokenAES.base64}).then((result) async{
-        //log("TokenHttp请求成功 = $result");
+        /// todo 上线前删除这些logo
+        log("TokenHttp请求成功 = $result");
         if(result['error_code'] == 0){
           final accessToken = result['data']['accessToken'];
           await SecureStorage().write('accessToken', accessToken);
           LocalStorage().setInt('accessTokenExpire', result['data']['accessTokenExpire']*1000 + nowTime);
-          //log('续期成功 ${result['data']['accessTokenExpire']*1000 + DateTime.now().millisecondsSinceEpoch}');
+          log('续期成功 ${result['data']['accessTokenExpire']*1000 + DateTime.now().millisecondsSinceEpoch}');
           return result['data']['accessToken'];
         }else if(result['error_code'] == 4004){
           //SecureStorage().read('accessToken').then((value) => log('accessToken = $value'));
@@ -273,25 +275,28 @@ class Auth{
         }
         return null;
       }).catchError((e){
-        //log('access catchError 异常 = $e');
+        log('access catchError 异常 = $e');
         return null;
       });
     }on DioError catch (e){
-      //log('access DioError 异常 = $e');
+      log('access DioError 异常 = $e');
       return null;
     } catch (e){
-      //log('access 异常 = $e');
+      log('access 异常 = $e');
       return null;
     }
   }
 
   Future<bool> getSalt() async{
-    //log('Begin getSalt');
+    log('Begin getSalt');
     /// key 本地salt 
     String key = Tools.generateMd5(PRIMARYCOLOR.toString());
     /// iv remote config rk salt
     String iv = RemoteConfigApi().getString('rk');
-
+    if(iv == ''){
+      return false;
+    }
+    log('远程rk = $iv');
     iv = iv.replaceAll(" ", "");
     int ivLen = iv.length;
     if(ivLen < IV_LENGTH){
@@ -303,14 +308,15 @@ class Auth{
     /// 把key iv保存到SecureStorage里面
     var writeYS = await SecureStorage().write('ys', key);
     var writeYSV = await SecureStorage().write('ysv', iv);
+
     if(writeYS && writeYSV){
-      //log('密钥存储成功');
+      log('密钥存储成功');
       /// 如果本地不存在 access_token refresh_token,或者有效期快到了，就去请求
       String? accessToken = await SecureStorage().read('accessToken');
       String? refreshToken = await SecureStorage().read('refreshToken');
-      //log("$accessToken ----- $refreshToken");
+      log("$accessToken ----- $refreshToken");
       if(accessToken == null || refreshToken == null){
-        //log('accessToken 或 refreshToken不存在，请求getToken');
+        log('accessToken 或 refreshToken不存在，请求getToken');
         await getToken();
       }
     }

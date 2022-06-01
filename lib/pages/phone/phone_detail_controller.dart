@@ -33,9 +33,10 @@ class PhoneDetailController extends GetxController {
   var coins = 0.obs; // 用户分数
   var price = 50.obs; //号码单价
   var rewardCoins = 10; // admob上设置的激励广告奖励数量
-  var countdownTitle = '号码上线倒计时'.tr.obs;
+  var countdownTitle = '加载中'.tr.obs;
   late int upcomingTime = 0;
   bool isLoad = false;
+  var isLoading = true.obs; // 是否显示加载中，用于打开页面，请求到数据前显示
 
   ///在onInit()接受传递的数据
   @override
@@ -185,13 +186,16 @@ class PhoneDetailController extends GetxController {
           // 预告号码
           numberType.value = 2;
 
-          if (response['data']['info']['upcomingTime'] != null) {
+          var upcomingTime = response['data']['info']['upcomingTime'];
+          if (upcomingTime != null && upcomingTime != false) {
             // 计算出秒数，进行倒计时
-            int time = int.parse(response['data']['info']['upcomingTime']);
+            int time = int.parse(upcomingTime);
             int nowTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
             upcomingSecond = time - nowTime;
             if (upcomingSecond < 0) {
               countdownTitle.value = '加载中'.tr + '...';
+            }else{
+              countdownTitle.value = '号码上线倒计时'.tr;
             }
           }
 
@@ -242,6 +246,8 @@ class PhoneDetailController extends GetxController {
     } catch (e) {
       log('getMessage 异常 = $e');
       error();
+    } finally {
+      isLoading.value = false;
     }
   }
 

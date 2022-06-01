@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/utils/config.dart';
 import 'package:dio/dio.dart';
 import '../../request/http_request.dart';
 import '../../request/interceptor/cache.dart';
@@ -5,8 +6,8 @@ import '../../request/interceptor/cache.dart';
 class HttpUtils {
   static void init({
     required String baseUrl,
-    int connectTimeout = 10000,
-    int receiveTimeout = 10000,
+    int connectTimeout = HTTP_TIMEOUT,
+    int receiveTimeout = HTTP_TIMEOUT,
     List<Interceptor>? interceptors,
   }) {
     Http().init(
