@@ -57,13 +57,13 @@ class _SplashState extends State<SplashView> {
     await Firebase.initializeApp();
 
     // 加载Admob广告
-    /// todo上线需要更改测试设备
-    //MobileAds.instance.initialize();
-    MobileAds.instance.updateRequestConfiguration(
+    /// todo 上线需要更改测试设备
+    MobileAds.instance.initialize();
+/*    MobileAds.instance.updateRequestConfiguration(
         RequestConfiguration(testDeviceIds: [
           '8473F26D124D76EAC5DB1A6F9E251D27',
           'EE5A97F180B7E142CBE2B5772EBA18B4'
-        ]));
+        ]));*/
 
     // 初始化firebase Crashlytics错误收集
     if (kReleaseMode){ //

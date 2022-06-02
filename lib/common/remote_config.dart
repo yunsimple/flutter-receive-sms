@@ -23,14 +23,13 @@ class RemoteConfigApi {
       fetchTimeout: const Duration(seconds: FIREBASE_TIMEOUT),
 
       /// todo 生产模式，这里的值需要更改
-      minimumFetchInterval: const Duration(seconds: 6),
+      minimumFetchInterval: const Duration(hours: 6),
     ));
 
     // 设置默认参数
     /// 上线前要设置默认值
     await config.setDefaults(const {
       /// todo rk需不需要默认
-      //'rk': 'SsCF5poAfNB4frq5',
       'baseUrl': 'https://api.receivesms.top/',
       'adSwitch':
           '{"adSwitchBanner":true,"adSwitchInterstitial":true,"adSwitchNative":true,"adSwitchOpenApp":true,"adSwitchRewarded":true,"nativeSize":"random"}',

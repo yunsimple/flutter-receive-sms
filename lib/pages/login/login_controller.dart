@@ -59,9 +59,9 @@ class LoginController extends GetxController{
 
   //登陆
   login(String username, String password) async{
-    bool isLogin = await Auth().login(username, password);
+    var isLogin = await Auth().login(username, password);
     log(isLogin);
-    if (isLogin) {
+    if (isLogin == true) {
       //判断是否保存密码
       if(isChecked.value == true){
         SecureStorage().write('username', username);
@@ -72,6 +72,8 @@ class LoginController extends GetxController{
       }
       //登陆成功，跳转My页面
       Get.back(result: 'LoginSuccess');
+    }else{
+      Tools.toast(isLogin ?? '登陆失败'.tr, type: 'error', time: 5);
     }
   }
 

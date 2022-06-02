@@ -26,16 +26,13 @@ class MyView extends GetView<MyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+/*      floatingActionButton: FloatingActionButton(
         onPressed: () async {
-
-          log(RemoteConfigApi().getString('baseUrl'));
-          await RemoteConfigApi().fetchAndActivate(minimumFetchInterval: true);
-          log(RemoteConfigApi().getString('baseUrl'));
+          log(controller.phoneCount['vipPhoneCount']);
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
-      ),
+      ),*/
       appBar: AppBar(
         title: Text(controller.title),
         //centerTitle: true,
@@ -79,25 +76,15 @@ class MyView extends GetView<MyController> {
                     ),
                     title: 'VIP号码'.tr,
                     subtitle: '会员专属号码'.tr,
-                    trailing: const Icon(
-                      PhosphorIcons.caret_right_bold,
-                      size: 20,
-                    ),
-                  ),
-                  SettingsItem(
-                    onTap: () async {
-                      Get.toNamed(
-                        Routes.phoneList + '?countryID=favorites&title=' + '收藏号码'.tr,
-                      );
-                    },
-                    icons: PhosphorIcons.bookmark_light,
-                    iconStyle: IconStyle(),
-                    title: '收藏'.tr,
-                    subtitle: '查询所有收藏号码'.tr,
-                    trailing: const Icon(
-                      PhosphorIcons.caret_right_bold,
-                      size: 20,
-                    ),
+                    trailing: controller.phoneCount['vipPhoneCount'] > 0
+                        ? Text(
+                            controller.phoneCount['vipPhoneCount'].toString(),
+                            style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          )
+                        : const Icon(
+                            PhosphorIcons.caret_right_bold,
+                            size: 20,
+                          ),
                   ),
                   SettingsItem(
                     onTap: () {
@@ -105,10 +92,15 @@ class MyView extends GetView<MyController> {
                         Routes.phoneList + '?countryID=upcoming&title=' + '预告号码'.tr,
                       );
                     },
-                    trailing: const Icon(
-                      PhosphorIcons.caret_right_bold,
-                      size: 20,
-                    ),
+                    trailing: controller.phoneCount['upcomingPhoneCount'] > 0
+                        ? Text(
+                            controller.phoneCount['upcomingPhoneCount'].toString(),
+                            style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          )
+                        : const Icon(
+                            PhosphorIcons.caret_right_bold,
+                            size: 20,
+                          ),
                     icons: PhosphorIcons.lightning_light,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
@@ -121,6 +113,23 @@ class MyView extends GetView<MyController> {
                     subtitle: '上线时间'.tr +
                         ': ' +
                         Tools.getYmd(ymd: 'ymdh', timestamp: controller.myInfo['upcomingTime'] ??= 0, line: '-'),
+                  ),
+                  SettingsItem(
+                    onTap: () async {
+                      Get.toNamed(
+                        Routes.phoneList + '?countryID=favorites&title=' + '收藏号码'.tr,
+                      );
+                    },
+                    icons: PhosphorIcons.bookmark_light,
+                    iconStyle: IconStyle(),
+                    title: '收藏'.tr,
+                    subtitle: '查询所有收藏号码'.tr,
+                    trailing: controller.phoneCount['favoritesPhoneCount'] > 0
+                        ? Text(controller.phoneCount['favoritesPhoneCount'].toString())
+                        : const Icon(
+                            PhosphorIcons.caret_right_bold,
+                            size: 20,
+                          ),
                   ),
                 ],
               );
@@ -174,7 +183,8 @@ class MyView extends GetView<MyController> {
                         controller.currentLanguage = value as String;
                         LanguageChangeController().changeLanguage(lang, country);
                       },
-                      items: <String>['System', 'English','Deutsch', 'Português', '繁體中文'].map<DropdownMenuItem<String>>((String value) {
+                      items: <String>['System', 'English', 'Deutsch', 'Português', '繁體中文']
+                          .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(

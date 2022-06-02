@@ -170,7 +170,7 @@ class LoginView extends GetView<LoginController> {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text('记住密码'.tr, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+                            Text('记住密码'.tr, style: const TextStyle(color: Colors.grey, fontSize: 14)),
                           ],
                         ),
                       );
@@ -196,7 +196,7 @@ class LoginView extends GetView<LoginController> {
                             }
                           }
                         },
-                        child: Text('忘记密码'.tr, style: const TextStyle(color: Colors.grey, fontSize: 15))),
+                        child: Text('忘记密码'.tr, style: const TextStyle(color: Colors.grey, fontSize: 14))),
                   ],
                 ),
                 const SizedBox(
@@ -247,7 +247,7 @@ class LoginView extends GetView<LoginController> {
                           log('google登陆返回成功');
                           Get.back(result: 'LoginSuccess');
                         } else {
-                          Tools.toast('Google登陆失败,请检查网络是否连接'.tr, type: 'error');
+                          Tools.toast(value ?? 'Google登陆失败,请检查网络是否连接'.tr, type: 'error', time: 5);
                         }
                       });
                     },
@@ -263,7 +263,7 @@ class LoginView extends GetView<LoginController> {
                   children: [
                     Text(
                       "没有账号".tr,
-                      style: regular16pt.copyWith(color: textGrey),
+                      style: regular16pt.copyWith(color: textGrey, fontSize: 14),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -272,7 +272,7 @@ class LoginView extends GetView<LoginController> {
                       },
                       child: Text(
                         '注册'.tr,
-                        style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR)),
+                        style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR), fontSize: 14),
                       ),
                     ),
                   ],

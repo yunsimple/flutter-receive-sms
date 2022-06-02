@@ -32,8 +32,17 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     try {
       HttpUtils.post(Api.newPhone).then((response) {
         log('upcoming phone = $response');
-        if (response['error_code'] == 0 && response['data'] > 0) {
-          phoneBadgeCount.value = response['data'];
+        if (response['error_code'] == 0) {
+          if(response['data']['newPhoneCount'] > 0){
+            phoneBadgeCount.value = response['data'];
+          }
+          if(response['data']['upcomingPhoneCount'] > 0 || response['data']['vipPhoneCount'] > 0){
+            final MyController myController = Get.find<MyController>();
+            isMyBadgeShow.value = true;
+            myController.phoneCount['vipPhoneCount'] = response['data']['vipPhoneCount'];
+            myController.phoneCount['upcomingPhoneCount'] = response['data']['upcomingPhoneCount'];
+            myController.phoneCount['favoritesPhoneCount'] = response['data']['favoritesPhoneCount'];
+          }
         }
       }).catchError((e) {
         log('newPhone catchError 异常 = $e');

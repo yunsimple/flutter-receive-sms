@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -46,7 +48,7 @@ class Auth{
     print("✅✅✅✅ firebase user = $_user");
   }*/
 
-  Future<bool> googleLogin() async {
+  Future<dynamic> googleLogin() async {
     try{
       HomeController.appSwitch = 'dialog';
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn()
@@ -68,7 +70,12 @@ class Auth{
       await getToken();
       return true;
     } on FirebaseAuthException catch(e){
-      Tools.toast(e.message ?? 'fail', type: 'error');
+      return e.message;
+    } on TimeoutException catch (e){
+      log('googleLogin TimeoutException 登陆失败 = $e');
+      return 'Timed out, unable to connect to google server';
+    } catch (e){
+      log('googleLogin catch 登陆失败 = $e');
       return false;
     }
   }
@@ -104,7 +111,7 @@ class Auth{
   /// 总结
   /// 1.获取getIdToken
   /// 2.通过jwt token 获取access_token and refresh_token，获取成功后，保存进SecureStorage里面
-  Future<bool> login(String email, password) async {
+  Future<dynamic> login(String email, password) async {
     try{
       //log('开始邮箱登陆');
       await auth.signInWithEmailAndPassword(email: email, password: password).timeout(const Duration(seconds: FIREBASE_TIMEOUT));
@@ -113,12 +120,12 @@ class Auth{
       await getToken();
       return true;
     } on FirebaseAuthException catch(e){
-      //log('登陆异常 FirebaseAuthException = $e');
-      Tools.toast(e.message ?? '登陆失败'.tr, type: 'error');
-      return false;
+      return e.message;
+    } on TimeoutException catch (e){
+      log('login TimeoutException 登陆失败 = $e');
+      return 'Timed out, unable to connect to google server';
     } catch (e){
-      //log('登陆其他异常 = $e');
-      Tools.toast("登陆失败".tr, type: 'error');
+      log('login catch 登陆失败 = $e');
       return false;
     }
   }
@@ -230,16 +237,16 @@ class Auth{
   /// 存在refreshToken，直接获取accessToken即可
   /// 如果refreshToken不存在，则需要先 getToken
   Future<String?> getAccessToken() async{
-    log('Begin getAccessToken');
+    //log('Begin getAccessToken');
     String? refreshToken = await SecureStorage().read('refreshToken');
     if(refreshToken == null){
-      log('refreshToken不存在，重新请求获取getToken');
+      //log('refreshToken不存在，重新请求获取getToken');
       bool token = await getToken();
       if(!token){
         return null;
       }
       refreshToken = await SecureStorage().read('refreshToken');
-      log('refreshToken = $refreshToken');
+      //log('refreshToken = $refreshToken');
       if(refreshToken == null){
         return null;
       }
@@ -247,7 +254,7 @@ class Auth{
     /// 对refreshToken Aes 加密
     String key = await SecureStorage().read('ys');
     String iv = await SecureStorage().read('ysv');
-    log('安全存储 ys = $key ysv = $iv');
+    //log('安全存储 ys = $key ysv = $iv');
     final encrypt = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
     final refreshTokenAES = encrypt.encrypt(refreshToken,iv: IV.fromUtf8(iv));
     /// http request token，由于目前不存在加密
@@ -257,12 +264,12 @@ class Auth{
     try{
       return await TokenHttp().post(Api.access, {'token': refreshTokenAES.base64}).then((result) async{
         /// todo 上线前删除这些logo
-        log("TokenHttp请求成功 = $result");
+        //log("TokenHttp请求成功 = $result");
         if(result['error_code'] == 0){
           final accessToken = result['data']['accessToken'];
           await SecureStorage().write('accessToken', accessToken);
           LocalStorage().setInt('accessTokenExpire', result['data']['accessTokenExpire']*1000 + nowTime);
-          log('续期成功 ${result['data']['accessTokenExpire']*1000 + DateTime.now().millisecondsSinceEpoch}');
+          //log('续期成功 ${result['data']['accessTokenExpire']*1000 + DateTime.now().millisecondsSinceEpoch}');
           return result['data']['accessToken'];
         }else if(result['error_code'] == 4004){
           //SecureStorage().read('accessToken').then((value) => log('accessToken = $value'));
@@ -275,20 +282,20 @@ class Auth{
         }
         return null;
       }).catchError((e){
-        log('access catchError 异常 = $e');
+        //log('access catchError 异常 = $e');
         return null;
       });
     }on DioError catch (e){
-      log('access DioError 异常 = $e');
+      //log('access DioError 异常 = $e');
       return null;
     } catch (e){
-      log('access 异常 = $e');
+      //log('access 异常 = $e');
       return null;
     }
   }
 
   Future<bool> getSalt() async{
-    log('Begin getSalt');
+    //log('Begin getSalt');
     /// key 本地salt 
     String key = Tools.generateMd5(PRIMARYCOLOR.toString());
     /// iv remote config rk salt
@@ -296,7 +303,7 @@ class Auth{
     if(iv == ''){
       return false;
     }
-    log('远程rk = $iv');
+    //log('远程rk = $iv');
     iv = iv.replaceAll(" ", "");
     int ivLen = iv.length;
     if(ivLen < IV_LENGTH){
@@ -310,13 +317,13 @@ class Auth{
     var writeYSV = await SecureStorage().write('ysv', iv);
 
     if(writeYS && writeYSV){
-      log('密钥存储成功');
+      //log('密钥存储成功');
       /// 如果本地不存在 access_token refresh_token,或者有效期快到了，就去请求
       String? accessToken = await SecureStorage().read('accessToken');
       String? refreshToken = await SecureStorage().read('refreshToken');
-      log("$accessToken ----- $refreshToken");
+      //log("$accessToken ----- $refreshToken");
       if(accessToken == null || refreshToken == null){
-        log('accessToken 或 refreshToken不存在，请求getToken');
+        //log('accessToken 或 refreshToken不存在，请求getToken');
         await getToken();
       }
     }

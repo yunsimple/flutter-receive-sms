@@ -59,13 +59,12 @@ class RegisterView extends GetView<RegisterController> {
                           color: textWhiteGrey,
                           borderRadius: BorderRadius.circular(14.0),
                         ),
-
                         /// 用户输入框
                         child: TextFormField(
                           controller: controller.emailTextForm,
                           decoration: InputDecoration(
                             hintText: '电子邮箱'.tr,
-                            hintStyle: heading6.copyWith(color: textGrey),
+                            hintStyle: heading6.copyWith(color: textGrey,),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                             ),
@@ -259,12 +258,12 @@ class RegisterView extends GetView<RegisterController> {
                         children: [
                           AutoSizeText(
                             '创建账号即表示同意我们的'.tr,
-                            style: regular16pt.copyWith(color: textGrey),
+                            style: regular16pt.copyWith(color: textGrey,fontSize: 14),
                             maxLines: 1,
                           ),
                           Text(
                             '隐私条款'.tr,
-                            style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR),fontSize: 15),
+                            style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR),fontSize: 14),
                           ),
                         ],
                       ),
@@ -311,7 +310,7 @@ class RegisterView extends GetView<RegisterController> {
                   children: [
                     Text(
                       "已经有一个账号".tr,
-                      style: regular16pt.copyWith(color: textGrey),
+                      style: regular16pt.copyWith(color: textGrey, fontSize: 14),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -319,7 +318,7 @@ class RegisterView extends GetView<RegisterController> {
                       },
                       child: Text(
                         '登陆'.tr,
-                        style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR)),
+                        style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR), fontSize: 14),
                       ),
                     ),
                   ],
