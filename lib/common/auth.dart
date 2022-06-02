@@ -54,7 +54,6 @@ class Auth{
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn()
           .timeout(const Duration(seconds: FIREBASE_TIMEOUT)).catchError((err){
             log('googleLogin catchError = $err');
-        return null;
       });
       if(googleUser == null) return false;
       // 从请求中获取身份验证详细信息

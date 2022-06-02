@@ -30,7 +30,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashState extends State<SplashView> {
   //倒计时起始时间
-  int _countTime = 8;
+  int _countTime = 10;
   //计时器
   late Timer _timer;
   String hintTitle = '加载中'.tr;
@@ -55,16 +55,7 @@ class _SplashState extends State<SplashView> {
 
     // firebase初始化
     await Firebase.initializeApp();
-
-    // 加载Admob广告
-    /// todo 上线需要更改测试设备
-    MobileAds.instance.initialize();
-/*    MobileAds.instance.updateRequestConfiguration(
-        RequestConfiguration(testDeviceIds: [
-          '8473F26D124D76EAC5DB1A6F9E251D27',
-          'EE5A97F180B7E142CBE2B5772EBA18B4'
-        ]));*/
-
+    
     // 初始化firebase Crashlytics错误收集
     if (kReleaseMode){ //
       //release
@@ -78,6 +69,14 @@ class _SplashState extends State<SplashView> {
 
     // 初始化RemoteConfig
     await RemoteConfigApi().init();
+
+    // 加载Admob广告
+    MobileAds.instance.initialize();
+/*    MobileAds.instance.updateRequestConfiguration(
+        RequestConfiguration(testDeviceIds: [
+          '8473F26D124D76EAC5DB1A6F9E251D27',
+          'EE5A97F180B7E142CBE2B5772EBA18B4'
+        ]));*/
 
     // 远程配置api请求地址
     String url = RemoteConfigApi().getString('baseUrl');
@@ -159,10 +158,6 @@ class _SplashState extends State<SplashView> {
       }
     });
 
-    // 同步remote config 配置，供下次使用
-    if(LocalStorage().getInt('startNumber')! > 1){
-      RemoteConfigApi().fetch();
-    }
   }
 
 

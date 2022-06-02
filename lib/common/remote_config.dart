@@ -52,6 +52,9 @@ class RemoteConfigApi {
           .activate()
           .then((value) => log("Remote Config activate激活完成，可以使用", icon: 'ok', time: true))
           .catchError((onError) => log("Remote Config激活失败 = $onError", icon: 'error'));
+
+      // 重新拉取最新值，供下次使用
+      fetch();
     }
   }
 

@@ -52,7 +52,7 @@ android {
         applicationId "top.receivesms.app"
         minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 152//flutterVersionCode.toInteger()
+        versionCode 159 //flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
@@ -68,15 +68,20 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            //读取代码压缩配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk{
                 abiFilters "armeabi-v7a","arm64-v8a"
                 //此 App Bundle 包含原生代码，您尚未上传调试符号文件。我们建议您上传调试符号文件，这样会便于针对崩溃和 ANR 问题进行分析和调试
-                //debugSymbolLevel = 'FULL'//或者 'SYMBOL_TABLE' //
+                debugSymbolLevel = 'FULL'//或者 'SYMBOL_TABLE' //
             }
         }
     }
 
 }
+
 
 flutter {
     source '../..'
@@ -84,7 +89,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.android.gms:play-services-ads-lite:20.6.0'
     implementation 'com.cbman:roundimageview:1.1.2' //图片圆角

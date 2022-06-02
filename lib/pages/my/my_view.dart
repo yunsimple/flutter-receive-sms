@@ -8,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:package_info/package_info.dart';
 import '../../Routes.dart';
 import '../../common/auth.dart';
 import '../../common/language.dart';
@@ -28,7 +29,9 @@ class MyView extends GetView<MyController> {
     return Scaffold(
 /*      floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          log(controller.phoneCount['vipPhoneCount']);
+
+          log(RemoteConfigApi().getJson('adSwitch'));
+
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
@@ -76,7 +79,7 @@ class MyView extends GetView<MyController> {
                     ),
                     title: 'VIP号码'.tr,
                     subtitle: '会员专属号码'.tr,
-                    trailing: controller.phoneCount['vipPhoneCount'] > 0
+                    trailing: controller.phoneCount['vipPhoneCount']! > 0
                         ? Text(
                             controller.phoneCount['vipPhoneCount'].toString(),
                             style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
@@ -92,7 +95,7 @@ class MyView extends GetView<MyController> {
                         Routes.phoneList + '?countryID=upcoming&title=' + '预告号码'.tr,
                       );
                     },
-                    trailing: controller.phoneCount['upcomingPhoneCount'] > 0
+                    trailing: controller.phoneCount['upcomingPhoneCount']! > 0
                         ? Text(
                             controller.phoneCount['upcomingPhoneCount'].toString(),
                             style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
@@ -124,7 +127,7 @@ class MyView extends GetView<MyController> {
                     iconStyle: IconStyle(),
                     title: '收藏'.tr,
                     subtitle: '查询所有收藏号码'.tr,
-                    trailing: controller.phoneCount['favoritesPhoneCount'] > 0
+                    trailing: controller.phoneCount['favoritesPhoneCount']! > 0
                         ? Text(controller.phoneCount['favoritesPhoneCount'].toString())
                         : const Icon(
                             PhosphorIcons.caret_right_bold,

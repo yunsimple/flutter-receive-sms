@@ -6,6 +6,7 @@ import '../../pages/email/email_view.dart';
 import '../../pages/home/home_controller.dart';
 import '../../pages/my/my_view.dart';
 import '../../pages/phone/phone_view.dart';
+import '../../utils/api.dart';
 import '../../utils/config.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,10 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.put(HomeController());
+
+    final versionUrl = Api.baseUrl + 'version.xml';
+    final cfg = AppcastConfiguration(url: versionUrl, supportedOS: ['android']);
+
     return WillPopScope(
       onWillPop: () async {
         if (controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > const Duration(seconds: 2)) {
@@ -38,9 +43,9 @@ class HomeView extends StatelessWidget {
           child: Column(
             children: [
               // 自动更新
-              UpgradeAlert(
-                upgrader: controller.upgrader(),
-              ),
+              Obx(() => controller.isUpgraderShow.isFalse ? Container() : UpgradeAlert(
+                upgrader: controller.updateInfo,
+              )),
               Expanded(
                 child: PageView(
                   controller: controller.pageController,

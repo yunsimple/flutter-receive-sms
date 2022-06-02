@@ -21,7 +21,8 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   var phoneBadgeCount = 0.obs;
   var isMyBadgeShow = false.obs;
   static String appSwitch = '';
-  Upgrader? updateInfo;
+  late Upgrader updateInfo;
+  var isUpgraderShow = false.obs; // 动态显示upgrader
 
   @override
   void onInit() async {
@@ -51,6 +52,8 @@ class HomeController extends GetxController with WidgetsBindingObserver {
       log('newPhone DioError 异常 = $e');
     }
 
+    // 准备更新widget
+    upgrader();
   }
 
   @override
@@ -113,29 +116,30 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   }
 
   // 返回更新upgrader类
-  Upgrader? upgrader() {
+  upgrader() {
     final versionUrl = Api.baseUrl + 'version.xml';
     final cfg = AppcastConfiguration(url: versionUrl, supportedOS: ['android']);
     updateInfo = Upgrader(
       appcastConfig: cfg,
+      // todo 上线需要更改
       durationUntilAlertAgain: const Duration(days: 3),
       debugLogging: false,
     );
-    updateInfo?.initialize().then((value) {
+    updateInfo.initialize().then((value) {
       log('upgrader初始化');
+      isUpgraderShow.value = true;
       checkVersion();
     });
-    return updateInfo;
   }
 
   checkVersion() async {
     // 检查版本，并对我的页面进行版本设置
-    final MyController myController = Get.find<MyController>();
     await PackageInfo.fromPlatform().then((value) {
+      final MyController myController = Get.find<MyController>();
       myController.currentVersion.value = value.version;
-      myController.storeVersion = updateInfo?.currentAppStoreVersion();
+      myController.storeVersion = updateInfo.currentAppStoreVersion();
       if (myController.storeVersion != null && myController.storeVersion != value.version) {
-        myController.appStoreUrl = updateInfo?.currentAppStoreListingURL();
+        myController.appStoreUrl = updateInfo.currentAppStoreListingURL();
         myController.isUpdate.value = true;
         isMyBadgeShow.value = true;
       } else {

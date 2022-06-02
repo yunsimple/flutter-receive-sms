@@ -24,7 +24,7 @@ class MyController extends GetxController {
   var currentVersion = ''.obs;
   String? storeVersion;
   final HomeController homeController = Get.find<HomeController>();
-  var phoneCount = {}.obs;  // 各号码数量动态列表
+  var phoneCount = {'vipPhoneCount': 0, 'upcomingPhoneCount': 0, 'favoritesPhoneCount': 0}.obs;  // 各号码数量动态列表
 
   @override
   void onInit() async {
