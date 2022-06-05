@@ -107,10 +107,12 @@ class _SplashState extends State<SplashView> {
             LocalStorage().setJSON('notice', response['data']);
           }
         }).catchError((e){
-          //log('notice catchError 异常 = $e');
+          log('notice catchError 异常 = $e');
         });
       }on DioError catch (e){
-        //log('notice DioError 请求出错 = $e');
+        log('notice DioError 请求出错 = $e');
+      }catch (e){
+        log('notice catch 请求出错 = $e');
       }
     }
 
@@ -142,7 +144,7 @@ class _SplashState extends State<SplashView> {
 
   fcm() {
     // FCM云消息
-    FirebaseMessaging.instance.getToken().then((value) => log('FCMtoken = $value'));
+    //FirebaseMessaging.instance.getToken().then((value) => log('FCMtoken = $value'));
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       //log('fcm消息内容 = ${message.data}');

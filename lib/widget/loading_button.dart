@@ -48,8 +48,10 @@ class _LoadingButtonState extends State<LoadingButton> with SingleTickerProvider
       label: Text(
         widget.title,
         style: TextStyle(
-          color: widget.textColor
-        ),),
+          color: widget.textColor,
+        ),
+        semanticsLabel: widget.title,
+      ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(widget.color),
       ),

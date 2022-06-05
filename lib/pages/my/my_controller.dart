@@ -67,6 +67,8 @@ class MyController extends GetxController {
           userInfo.value = response['data']['userInfo'];
 
         }
+      }).catchError((e){
+        log('getMy catchError 异常 = $e');
       });
     } on DioError catch (e){
       log('getMy DioError 异常 = $e');

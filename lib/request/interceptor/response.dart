@@ -61,30 +61,8 @@ class ResponseInterceptor extends QueuedInterceptorsWrapper {
     }
     // 累计请求数量
     LocalStorage().setIncr('requestNumber');
-    // 广告检测
-    checkAds();
+
     return super.onResponse(response, handler);
-  }
-
-  checkAds(){
-    // 提示关闭广告插件
-    if(LocalStorage().getBool('isAd') == false){
-      Tools.toast('请关闭广告插件'.tr, type: 'error', time: 60);
-      return;
-    }
-
-    Map adblock = RemoteConfigApi().getJson('adblock');
-
-    if(LocalStorage().getInt('startNumber')! > adblock['day']
-        && LocalStorage().getInt('requestNumber')! > adblock['request']
-        && LocalStorage().getBool('isAd') != false
-        && (LocalStorage().getInt('AdShowed')! / LocalStorage().getInt('requestNumber')! * 100) < adblock['adPercentage']
-    ){
-      LocalStorage().setBool('isAd', false);
-      //log('使用广告插件，禁止该用户使用');
-      Tools.toast('请关闭广告插件'.tr, type: 'error', time: 60);
-    }
-
   }
 
 }

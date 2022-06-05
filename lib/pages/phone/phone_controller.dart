@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:upgrader/upgrader.dart';
 import '../../common/remote_config.dart';
 import '../../request/http_utils.dart';
 import '../../request/interceptor/api_request.dart';
@@ -20,7 +19,6 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
   final ScrollController scrollController = ScrollController(); // 滚动
   final EasyRefreshController refreshController = EasyRefreshController(); // 上下拉刷新
   var isShowFloatBtn = false.obs; // 是否显示返回顶部按钮
-  Upgrader? updateInfo;
 
   @override
   void onInit() {

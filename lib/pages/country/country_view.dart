@@ -19,7 +19,7 @@ class CountryView extends GetView<CountryController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title),
+        title: Text(controller.title, semanticsLabel: controller.title,),
       ),
       body: Column(
         children: [getNotice(), Expanded(child: _countryList())],
@@ -94,16 +94,20 @@ class CountryView extends GetView<CountryController> {
       },
       child: Column(
         children: [
-          CachedNetworkImage(
-            imageUrl: image,
-            errorWidget: (context, url, error) => const Icon(
-              Icons.image_outlined,
-              size: 100,
+          Semantics(
+            child: CachedNetworkImage(
+              imageUrl: image,
+              errorWidget: (context, url, error) => const Icon(
+                Icons.image_outlined,
+                size: 100,
+              ),
             ),
+            label: data['title'],
           ),
           Text(
             data['title'],
             style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            semanticsLabel: data['title'],
           )
         ],
       ),

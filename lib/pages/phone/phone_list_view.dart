@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/pages/phone/phone_list_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clipboard/clipboard.dart';
@@ -5,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:upgrader/upgrader.dart';
 import '../../Routes.dart';
-import '../../pages/phone/phone_list_controller.dart';
+import '../../common/notice_bar.dart';
 import '../../utils/api.dart';
 import '../../utils/tools.dart';
 import '../../widget/widget.dart';
 import 'package:get/get.dart';
+import 'phone_controller.dart';
 
 class PhoneListView extends GetView<PhoneListController> {
   const PhoneListView({Key? key}) : super(key: key);
@@ -19,24 +22,32 @@ class PhoneListView extends GetView<PhoneListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title),
+        title: Text(
+          controller.title,
+          semanticsLabel: controller.title,
+        ),
       ),
-      body: _phoneListView(),
+      body: Column(
+        children: [
+          getNotice(),
+          Expanded(child: _phoneListView()),
+        ],
+      ),
       floatingActionButton: Obx(() {
         return controller.isShowFloatBtn.isFalse
             ? const SizedBox()
             : FloatingActionButton(
-                onPressed: () async {
-                  controller.scrollController.animateTo(
-                    .0,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease,
-                  );
-                },
-                tooltip: 'Top',
-                child: const Icon(PhosphorIcons.arrow_fat_lines_up_fill),
-                mini: true,
-              );
+          onPressed: () async {
+            controller.scrollController.animateTo(
+              .0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.ease,
+            );
+          },
+          tooltip: 'Top',
+          child: const Icon(PhosphorIcons.arrow_fat_lines_up_fill),
+          mini: true,
+        );
       }),
     );
   }
@@ -79,7 +90,10 @@ class PhoneListView extends GetView<PhoneListController> {
                   : 120.0, // big 340.0 small 120.0,
               alignment: Alignment.center,
             )
-                : const Text('加载中');
+                : Text(
+              '加载中'.tr,
+              semanticsLabel: '加载中'.tr,
+            );
           }
           return Container(
             child: AdWidget(ad: controller.phoneList[index]),
@@ -109,11 +123,11 @@ class PhoneListView extends GetView<PhoneListController> {
     }
 
     // last time
-    int lastTime;
-    if (type == '1') {
-      lastTime = controller.phoneList[index]['last_time'];
+    String lastTime;
+    if (type == '1' || type == '3') {
+      lastTime = Tools.timeHandler(controller.phoneList[index]['last_time']);
     } else {
-      lastTime = 0;
+      lastTime = Tools.timeHandler(0);
     }
 
     return SizedBox(
@@ -134,10 +148,13 @@ class PhoneListView extends GetView<PhoneListController> {
                         '?countryID=${controller.phoneList[index]['country']['id']}&title=${controller.phoneList[index]['country']['title']}',
                   );
                 },
-                child: CachedNetworkImage(
-                  width: 64,
-                  imageUrl: image,
-                  errorWidget: (context, url, error) => const Icon(Icons.image_outlined, size: 64),
+                child: Semantics(
+                  child: CachedNetworkImage(
+                    width: 64,
+                    imageUrl: image,
+                    errorWidget: (context, url, error) => const Icon(Icons.image_outlined, size: 64),
+                  ),
+                  label: controller.phoneList[index]['country']['title'],
                 ),
               ),
 
@@ -169,6 +186,7 @@ class PhoneListView extends GetView<PhoneListController> {
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                             ),
+                            semanticsLabel: country,
                           ),
                         ],
                       ),
@@ -179,10 +197,12 @@ class PhoneListView extends GetView<PhoneListController> {
                             Text(
                               bh,
                               style: const TextStyle(fontWeight: FontWeight.bold),
+                              semanticsLabel: bh,
                             ),
                             Text(
                               " " + phoneNum,
                               style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                              semanticsLabel: phoneNum,
                             ),
                             const SizedBox(
                               width: 5,
@@ -201,10 +221,12 @@ class PhoneListView extends GetView<PhoneListController> {
                                   ? AutoSizeText(
                                 typeTitle,
                                 style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                semanticsLabel: typeTitle,
                               )
                                   : Text(
                                 typeTitle,
                                 style: const TextStyle(fontSize: 12, color: Colors.green),
+                                semanticsLabel: typeTitle,
                               ),
                             )
                           ],
@@ -231,7 +253,11 @@ class PhoneListView extends GetView<PhoneListController> {
                         const SizedBox(
                           width: 2,
                         ),
-                        Text(Tools.timeHandler(lastTime), style: const TextStyle(fontSize: 12.0, color: Colors.grey))
+                        Text(
+                          lastTime,
+                          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+                          semanticsLabel: lastTime,
+                        )
                         //Text(lastTime)
                       ],
                     ),
@@ -263,6 +289,7 @@ class PhoneListView extends GetView<PhoneListController> {
                                       color: Colors.white,
                                       fontSize: 12.0,
                                     ),
+                                    semanticsLabel: receiveTotal,
                                   )
                                 ],
                               )),
@@ -289,8 +316,8 @@ class PhoneListView extends GetView<PhoneListController> {
   ///下拉刷新
   Future<void> _onRefresh() async {
     //await Future.delayed(const Duration(milliseconds: 5000));
+    controller.page = 1;
     await controller.fetchPhoneList(countryID: controller.countryID);
     controller.refreshController.finishRefresh(success: true);
-    controller.page = 1;
   }
 }

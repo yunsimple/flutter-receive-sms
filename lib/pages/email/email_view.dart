@@ -31,7 +31,7 @@ class EmailView extends GetView<EmailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title),
+        title: Text(controller.title, semanticsLabel: controller.title,),
       ),
       body: Column(
         children: [
@@ -63,10 +63,12 @@ class EmailView extends GetView<EmailController> {
             if(currentEmailSite.isEmpty){
               currentEmailSite = '请选择邮箱后坠'.tr;
             }
+            String emailSite = controller.currentEmailUser.toString() + currentEmailSite;
             return AutoSizeText(
-              controller.currentEmailUser.toString() + currentEmailSite,
+              emailSite,
               style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               maxLines: 1,
+              semanticsLabel: emailSite,
             );
           },
         ),
@@ -108,7 +110,7 @@ class EmailView extends GetView<EmailController> {
                     }
                   },
                   icon: const Icon(PhosphorIcons.at),
-                  label: Text("创建".tr)),
+                  label: Text("创建".tr, semanticsLabel: '创建'.tr,)),
             )
           ],
         ),
@@ -225,6 +227,7 @@ class EmailView extends GetView<EmailController> {
 
   ///邮件列表 Widget
   Widget emailListItemBuilder(BuildContext context, int index) {
+    String lastTime = Tools.timeHandler(controller.emailList[index]['time']);
     return InkWell(
       onTap: () => Get.toNamed(Routes.emailDetail, arguments: controller.emailList[index]),
       child: Card(
@@ -238,6 +241,7 @@ class EmailView extends GetView<EmailController> {
             title: Text(
               controller.emailList[index]['subject'],
               overflow: TextOverflow.ellipsis,
+              semanticsLabel: controller.emailList[index]['subject'],
             ),
             isThreeLine: true,
             trailing: const Padding(
@@ -247,8 +251,8 @@ class EmailView extends GetView<EmailController> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(controller.emailList[index]['from']),
-                Text(Tools.timeHandler(controller.emailList[index]['time'])),
+                Text(controller.emailList[index]['from'], semanticsLabel: controller.emailList[index]['from'],),
+                Text(lastTime, semanticsLabel: lastTime,),
               ],
             ),
           )),

@@ -197,15 +197,12 @@ class Tools {
           String adKey = admob.preloadNativeAd.keys.toList()[0];
           dataList.insert(i, admob.preloadNativeAd[adKey]);
           admob.preloadNativeAd.remove(adKey);
-        } else {
+        }
+
+        // 提前预加载
+        if(admob.preloadNativeAdWait.length < 2){
+          log("Phone原生广告缓存不存在或小于2条，提前预加载4条");
           admob.getNativeAd('phone_list_native', number: 4);
-          //log('加载广告缓存为空，存在正在加载的广告 = ${admob.preloadNativeAdWait.length}');
-          /*if(admob.preloadNativeAdWait.length == 0){
-            log("Phone原生广告缓存不存在，预加载4条");
-            admob.getNativeAd(number: 4);
-          }*/
-          //dataList.insert(i, admob.getNativeAd(isPreload: false));
-          //log("实时插入原生广告");
         }
       }
     }

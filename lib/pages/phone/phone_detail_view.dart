@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -32,7 +33,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.currentPhoneInfo['phone_num']),
+        title: Text(controller.currentPhoneInfo['phone_num'],semanticsLabel: controller.currentPhoneInfo['phone_num'],),
         elevation: 0,
       ),
       body: EasyRefresh.custom(
@@ -126,7 +127,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
           padding: const EdgeInsets.only(top: 20.0),
           child: Column(
             children: [
-              Text(controller.countdownTitle.value),
+              Text(controller.countdownTitle.value, semanticsLabel: controller.countdownTitle.value,),
               const SizedBox(
                 height: 10,
               ),
@@ -160,6 +161,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
             Text(
               '金币数量'.tr + ': ${controller.coins.value}',
               style: const TextStyle(fontWeight: FontWeight.bold),
+              semanticsLabel: '金币数量'.tr,
             ),
             const SizedBox(
               height: 15,
@@ -324,6 +326,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                 '任何人都可以看到这个号码的消息'.tr,
                 style: const TextStyle(color: Colors.red),
               ),
+              //Text('为什么接收不到'.tr),
             ],
           )),
     );
@@ -364,7 +367,15 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
             title: '无法接收'.tr,
             icon: PhosphorIcons.chat_centered_dots,
             onPress: () async {
-              await controller.report();
+              final dialog = await showOkCancelAlertDialog(
+                context: Get.context!,
+                title: '关于无法接收'.tr,
+                message: '为什么接收不到'.tr,
+                isDestructiveAction: true,
+              );
+              if (dialog == OkCancelResult.ok) {
+                await controller.report();
+              }
             },
             color: Colors.redAccent,
           ),
@@ -392,7 +403,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                   return Container(
                     child: controller.isAdShowList.contains(index)
                         ? AdWidget(ad: controller.messageList[index])
-                        : const Text('loading...'),
+                        : Text('加载中'.tr),
                     height: controller.messageList[index].factoryId == 'nativeBigAd'
                         ? 340.0
                         : 120.1, // big 340.0 small 120.0,
@@ -418,6 +429,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
     // 显示短信项目
     String smsNumber = controller.messageList[index]['smsNumber'];
     String url = controller.messageList[index]['url'];
+    String lastTime = Tools.timeHandler(controller.messageList[index]['smsDate']);
     String project;
     if (url != '') {
       project = url;
@@ -449,6 +461,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
               Text(
                 controller.messageList[index]['smsContent'],
                 style: GoogleFonts.getFont('Montserrat', textStyle: const TextStyle(fontSize: 15)),
+                semanticsLabel: controller.messageList[index]['smsContent'],
               ),
               const SizedBox(
                 height: 10,
@@ -468,10 +481,10 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                         const SizedBox(
                           width: 2,
                         ),
-                        Text(project)
+                        Text(project, semanticsLabel: project,)
                       ],
                     ),
-                    Text(Tools.timeHandler(controller.messageList[index]['smsDate']))
+                    Text(lastTime, semanticsLabel: lastTime,)
                   ],
                 ),
               )

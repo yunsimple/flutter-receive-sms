@@ -21,7 +21,10 @@ class PhoneView extends GetView<PhoneController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title),
+        title: Text(
+          controller.title,
+          semanticsLabel: controller.title,
+        ),
       ),
       body: Column(
         children: [
@@ -86,7 +89,10 @@ class PhoneView extends GetView<PhoneController> {
                         : 120.0, // big 340.0 small 120.0,
                     alignment: Alignment.center,
                   )
-                : const Text('加载中');
+                : Text(
+                    '加载中'.tr,
+                    semanticsLabel: '加载中'.tr,
+                  );
           }
           return Container(
             child: AdWidget(ad: controller.phoneList[index]),
@@ -116,11 +122,11 @@ class PhoneView extends GetView<PhoneController> {
     }
 
     // last time
-    int lastTime;
-    if (type == '1') {
-      lastTime = controller.phoneList[index]['last_time'];
+    String lastTime;
+    if (type == '1' || type == '3') {
+      lastTime = Tools.timeHandler(controller.phoneList[index]['last_time']);
     } else {
-      lastTime = 0;
+      lastTime = Tools.timeHandler(0);
     }
 
     return SizedBox(
@@ -141,10 +147,13 @@ class PhoneView extends GetView<PhoneController> {
                         '?countryID=${controller.phoneList[index]['country']['id']}&title=${controller.phoneList[index]['country']['title']}',
                   );
                 },
-                child: CachedNetworkImage(
-                  width: 64,
-                  imageUrl: image,
-                  errorWidget: (context, url, error) => const Icon(Icons.image_outlined, size: 64),
+                child: Semantics(
+                  child: CachedNetworkImage(
+                    width: 64,
+                    imageUrl: image,
+                    errorWidget: (context, url, error) => const Icon(Icons.image_outlined, size: 64),
+                  ),
+                  label: controller.phoneList[index]['country']['title'],
                 ),
               ),
 
@@ -176,6 +185,7 @@ class PhoneView extends GetView<PhoneController> {
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                             ),
+                            semanticsLabel: country,
                           ),
                         ],
                       ),
@@ -186,10 +196,12 @@ class PhoneView extends GetView<PhoneController> {
                             Text(
                               bh,
                               style: const TextStyle(fontWeight: FontWeight.bold),
+                              semanticsLabel: bh,
                             ),
                             Text(
                               " " + phoneNum,
                               style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                              semanticsLabel: phoneNum,
                             ),
                             const SizedBox(
                               width: 5,
@@ -208,10 +220,12 @@ class PhoneView extends GetView<PhoneController> {
                                   ? AutoSizeText(
                                       typeTitle,
                                       style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                      semanticsLabel: typeTitle,
                                     )
                                   : Text(
                                       typeTitle,
                                       style: const TextStyle(fontSize: 12, color: Colors.green),
+                                      semanticsLabel: typeTitle,
                                     ),
                             )
                           ],
@@ -238,7 +252,11 @@ class PhoneView extends GetView<PhoneController> {
                         const SizedBox(
                           width: 2,
                         ),
-                        Text(Tools.timeHandler(lastTime), style: const TextStyle(fontSize: 12.0, color: Colors.grey))
+                        Text(
+                          lastTime,
+                          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+                          semanticsLabel: lastTime,
+                        )
                         //Text(lastTime)
                       ],
                     ),
@@ -270,6 +288,7 @@ class PhoneView extends GetView<PhoneController> {
                                       color: Colors.white,
                                       fontSize: 12.0,
                                     ),
+                                    semanticsLabel: receiveTotal,
                                   )
                                 ],
                               )),

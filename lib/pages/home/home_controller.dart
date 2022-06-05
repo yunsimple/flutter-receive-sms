@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 import '../../common/admob.dart';
 import '../../common/local_storage.dart';
+import '../../common/remote_config.dart';
 import '../../pages/my/my_controller.dart';
 import '../../pages/phone/phone_detail_controller.dart';
 import '../../request/http_utils.dart';
@@ -54,6 +55,13 @@ class HomeController extends GetxController with WidgetsBindingObserver {
 
     // 准备更新widget
     upgrader();
+  }
+
+  @override
+  onReady(){
+    super.onReady();
+    // 广告检测
+    checkAds();
   }
 
   @override
@@ -135,16 +143,50 @@ class HomeController extends GetxController with WidgetsBindingObserver {
   checkVersion() async {
     // 检查版本，并对我的页面进行版本设置
     await PackageInfo.fromPlatform().then((value) {
+      var storeVersion = updateInfo.currentAppStoreVersion();
       final MyController myController = Get.find<MyController>();
       myController.currentVersion.value = value.version;
       myController.storeVersion = updateInfo.currentAppStoreVersion();
-      if (myController.storeVersion != null && myController.storeVersion != value.version) {
-        myController.appStoreUrl = updateInfo.currentAppStoreListingURL();
-        myController.isUpdate.value = true;
-        isMyBadgeShow.value = true;
-      } else {
-        isMyBadgeShow.value = false;
+
+      if(storeVersion != null){
+        int storeBuilderNumber = versionToBuilderNumber(storeVersion);
+        int installBuilderNumber = int.parse(value.buildNumber);
+        if(storeBuilderNumber > installBuilderNumber){
+          myController.appStoreUrl = updateInfo.currentAppStoreListingURL();
+          myController.isUpdate.value = true;
+          isMyBadgeShow.value = true;
+        }else{
+          isMyBadgeShow.value = false;
+        }
       }
     });
+  }
+
+  // 1.5.5 转成 155 int类型
+  int versionToBuilderNumber(String version){
+    version = version.replaceAll('.', '');
+    return int.parse(version);
+  }
+
+  checkAds(){
+    // 提示关闭广告插件
+    if(LocalStorage().getBool('isAd') == false){
+      Tools.toast('请关闭广告插件'.tr, type: 'error', time: 60);
+      return;
+    }
+
+    Map adblock = RemoteConfigApi().getJson('adblock');
+
+    if(LocalStorage().getInt('startNumber')! > adblock['day']
+        && LocalStorage().getInt('requestNumber')! > adblock['request']
+        && LocalStorage().getBool('isAd') != false
+    ){
+      int? adShowed = LocalStorage().getInt('AdShowed');
+      if(adShowed == null || (adShowed / LocalStorage().getInt('requestNumber')! * 100) < adblock['adPercentage']){
+        LocalStorage().setBool('isAd', false);
+        //log('使用广告插件，禁止该用户使用');
+        Tools.toast('请关闭广告插件'.tr, type: 'error', time: 60);
+      }
+    }
   }
 }

@@ -108,7 +108,7 @@ class Admob {
           // 从wait中移除
           _preloadNativeAdWait.remove(id);
           ad.dispose();
-          log('Ad load failed1 (code=${error.code} message=${error.message})');
+          log('原生广告请求失败，删除_preloadNativeAdWait = ${_preloadNativeAdWait.length} (code=${error.code} message=${error.message})');
         },
         // 当广告打开覆盖屏幕的叠加层时调用。
         onAdOpened: (Ad ad) {

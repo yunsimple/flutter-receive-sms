@@ -1,6 +1,4 @@
 import 'package:ReceiveSMS/common/remote_config.dart';
-import 'package:ReceiveSMS/pages/phone/phone_detail_controller.dart';
-import 'package:ReceiveSMS/utils/api.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
@@ -8,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
-import 'package:package_info/package_info.dart';
 import '../../Routes.dart';
 import '../../common/auth.dart';
 import '../../common/language.dart';
@@ -27,15 +24,15 @@ class MyView extends GetView<MyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          log(RemoteConfigApi().getJson('adSwitch'));
+          log(LocalStorage().getInt('requestNumber'));
 
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
-      ),*/
+      ),
       appBar: AppBar(
         title: Text(controller.title),
         //centerTitle: true,

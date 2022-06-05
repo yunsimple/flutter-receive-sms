@@ -49,9 +49,9 @@ class RemoteConfigApi {
     } else {
       // 第N次启动时
       await config
-          .activate()
-          .then((value) => log("Remote Config activate激活完成，可以使用", icon: 'ok', time: true))
-          .catchError((onError) => log("Remote Config激活失败 = $onError", icon: 'error'));
+          .activate();
+          //.then((value) => log("Remote Config activate激活完成，可以使用", icon: 'ok', time: true))
+          //.catchError((onError) => log("Remote Config激活失败 = $onError", icon: 'error'));
 
       // 重新拉取最新值，供下次使用
       fetch();
@@ -70,11 +70,11 @@ class RemoteConfigApi {
     }
 
     return await config.fetchAndActivate().then((value) {
-      log("Remote Config fetchAndActivate激活完成，可以使用", icon: 'ok', time: true);
+      //log("Remote Config fetchAndActivate激活完成，可以使用", icon: 'ok', time: true);
       return true;
     }).catchError((onError) {
       Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 10);
-      log("Remote Config激活失败 = $onError", icon: 'error');
+      //log("Remote Config激活失败 = $onError", icon: 'error');
       return false;
     });
   }
