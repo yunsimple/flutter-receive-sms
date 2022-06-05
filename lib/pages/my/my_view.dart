@@ -24,7 +24,7 @@ class MyView extends GetView<MyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+/*      floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
           log(LocalStorage().getInt('requestNumber'));
@@ -32,7 +32,7 @@ class MyView extends GetView<MyController> {
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
-      ),
+      ),*/
       appBar: AppBar(
         title: Text(controller.title),
         //centerTitle: true,
