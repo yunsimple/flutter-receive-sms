@@ -145,7 +145,7 @@ class _SplashState extends State<SplashView> {
   fcm() {
     // FCM云消息
     //FirebaseMessaging.instance.getToken().then((value) => log('FCMtoken = $value'));
-
+    FirebaseMessaging.instance.getToken();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       //log('fcm消息内容 = ${message.data}');
 

@@ -309,8 +309,14 @@ class PhoneListView extends GetView<PhoneListController> {
   ///上拉加载
   Future<void> _onLoad() async {
     controller.page = controller.page + 1;
-    await controller.fetchPhoneList(page: controller.page, countryID: controller.countryID);
-    controller.refreshController.finishLoad(success: true);
+    bool isOk = await controller.fetchPhoneList(page: controller.page, countryID: controller.countryID);
+    if(isOk == false){
+      controller.scrollController.animateTo(
+        controller.currentScroll - 60,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
   }
 
   ///下拉刷新

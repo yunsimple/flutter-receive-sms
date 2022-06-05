@@ -308,8 +308,15 @@ class PhoneView extends GetView<PhoneController> {
   ///上拉加载
   Future<void> _onLoad() async {
     controller.page = controller.page + 1;
-    await controller.fetchPhoneList(page: controller.page);
-    controller.refreshController.finishLoad(success: true);
+    bool isOk = await controller.fetchPhoneList(page: controller.page);
+    if(isOk == false){
+      controller.scrollController.animateTo(
+        controller.currentScroll - 60,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+    //controller.refreshController.finishRefresh(success: true);
   }
 
   ///下拉刷新
@@ -317,6 +324,5 @@ class PhoneView extends GetView<PhoneController> {
     //await Future.delayed(const Duration(milliseconds: 5000));
     controller.page = 1;
     await controller.fetchPhoneList();
-    controller.refreshController.finishRefresh(success: true);
   }
 }

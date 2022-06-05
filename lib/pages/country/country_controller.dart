@@ -17,6 +17,7 @@ class CountryController extends GetxController with StateMixin<dynamic> {
   List<int> insertIndex = [2, 7]; //插入广告的下标,下标不能为8，不明所已
   int requestError = 0;
   var isShowFloatBtn = false.obs; // 是否显示返回顶部按钮
+  double currentScroll = 0; // 当前滚动高度
 
   @override
   void onInit() {
@@ -34,6 +35,7 @@ class CountryController extends GetxController with StateMixin<dynamic> {
 
   void _initScrollEvent() {
     scrollController.addListener(() {
+      currentScroll = scrollController.offset;
       if (scrollController.offset < 1000 && isShowFloatBtn.isTrue) {
         isShowFloatBtn.value = false;
       } else if (scrollController.offset >= 1000 && isShowFloatBtn.isFalse) {
@@ -42,10 +44,10 @@ class CountryController extends GetxController with StateMixin<dynamic> {
     });
   }
 
-  fetchCountryList({int page = 1}) async {
+  Future<bool> fetchCountryList({int page = 1}) async {
     try {
       Map<String, dynamic> data = {'page': page};
-      await HttpUtils.post(Api.getCountry, data: data).then((response) {
+      return await HttpUtils.post(Api.getCountry, data: data).then((response) {
         requestError = 0;
         log('Country列表获取成功');
         if (response['error_code'] == 0) {
@@ -60,16 +62,20 @@ class CountryController extends GetxController with StateMixin<dynamic> {
         } else {
           Tools.toast('全部加载完成'.tr, type: 'info');
         }
+        return true;
       }).catchError((e) {
         log('getCountry catchError 异常 = $e');
         error();
+        return false;
       });
     } on DioError catch (e) {
       log('getCountry DioError 异常 = $e');
       error();
+      return false;
     } catch (e) {
       log('getCountry 异常 = $e');
       error();
+      return false;
     }
   }
 

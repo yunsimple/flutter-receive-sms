@@ -117,15 +117,19 @@ class CountryView extends GetView<CountryController> {
   ///上拉加载
   Future<void> _onLoad() async {
     controller.page = controller.page + 1;
-    await controller.fetchCountryList(page: controller.page);
-    controller.refreshController.finishLoad(success: true);
+    bool isOk = await controller.fetchCountryList(page: controller.page);
+    if(isOk == false){
+      controller.scrollController.animateTo(
+        controller.currentScroll - 60,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
   }
 
   ///下拉刷新
   Future<void> _onRefresh() async {
-    //await Future.delayed(const Duration(milliseconds: 5000));
     await controller.fetchCountryList();
-    controller.refreshController.finishRefresh(success: true);
     controller.page = 1;
   }
 }

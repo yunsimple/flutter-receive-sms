@@ -19,6 +19,7 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
   final ScrollController scrollController = ScrollController(); // 滚动
   final EasyRefreshController refreshController = EasyRefreshController(); // 上下拉刷新
   var isShowFloatBtn = false.obs; // 是否显示返回顶部按钮
+  double currentScroll = 0; // 当前滚动高度
 
   @override
   void onInit() {
@@ -42,6 +43,7 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
 
   void _initScrollEvent() {
     scrollController.addListener(() {
+      currentScroll = scrollController.offset;
       if (scrollController.offset < 1000 && isShowFloatBtn.isTrue) {
         isShowFloatBtn.value = false;
       } else if (scrollController.offset >= 1000 && isShowFloatBtn.isFalse) {
@@ -51,7 +53,7 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
   }
 
   //请求号码信息
-  fetchPhoneList({int page = 1}) async {
+  Future<bool> fetchPhoneList({int page = 1}) async {
     try {
       /**
        * 获取成功的情况
@@ -59,7 +61,7 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
        * 2.code=200  error_code=1 获取成功，空数据
        */
       Map<String, dynamic> data = {'page': page};
-      await HttpUtils.post(Api.getPhone, data: data).then((response) async {
+      return await HttpUtils.post(Api.getPhone, data: data).then((response) async {
         log('Phone 加载完成');
         requestError = 0;
         if (response['error_code'] == 0) {
@@ -92,16 +94,20 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
             Tools.toast('全部加载完成'.tr, type: 'info');
           }
         }
+        return true;
       }).catchError((e) {
         log('getPhone catchError 异常 = $e');
         error();
+        return false;
       });
     } on DioError catch (e) {
       log('getPhone DioError 异常 = $e');
       error();
+      return false;
     } catch (e) {
       log('getPhone 异常 = $e');
       error();
+      return false;
     }
   }
 
