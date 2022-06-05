@@ -191,8 +191,9 @@ class Admob {
     rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (RewardedAd ad) {
         log('激励广告全屏显示');
+        // 为了让open app广告不再出现
+        HomeController.appSwitch = 'rewarded';
         rewardedAd = null;
-
         // 广告显示成功后方法，用于判断屏蔽广告情况
         Tools.onAdShowFun();
       },
@@ -209,8 +210,7 @@ class Admob {
     );
 
     rewardedAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-      log('激励广告已经关看，奖励(${reward.amount}, ${reward.type})',time: true);
-      HomeController.appSwitch = 'rewarded';
+      log('激励广告已经观看，奖励(${reward.amount}, ${reward.type})',time: true);
     });
   }
 
@@ -269,6 +269,9 @@ class Admob {
 
         // 广告显示成功后方法，用于判断屏蔽广告情况
         Tools.onAdShowFun();
+
+        // 为了让open app广告不再出现
+        HomeController.appSwitch = 'rewarded';
       },
       onAdDismissedFullScreenContent: (RewardedInterstitialAd ad) {
         log('插页式激励广告关闭,开始预加载下一个激励广告');
@@ -284,7 +287,6 @@ class Admob {
 
     rewardedInterstitialAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       log('插页式激励广告已经关看，奖励(${reward.amount}, ${reward.type})');
-      HomeController.appSwitch = 'rewarded';
     });
   }
 
