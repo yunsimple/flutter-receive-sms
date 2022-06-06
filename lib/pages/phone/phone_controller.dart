@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import '../../common/remote_config.dart';
@@ -61,7 +62,7 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
        * 2.code=200  error_code=1 获取成功，空数据
        */
       Map<String, dynamic> data = {'page': page};
-      return await HttpUtils.post(Api.getPhone, data: data).then((response) async {
+      return await HttpUtils.post(Api.getPhone, data: data, options: buildCacheOptions(const Duration(minutes: 1))).then((response) async {
         log('Phone 加载完成');
         requestError = 0;
         if (response['error_code'] == 0) {

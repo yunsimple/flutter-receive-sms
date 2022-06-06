@@ -15,7 +15,6 @@ class Api {
   static final String register = baseUrl + "register";
   static final String notice = baseUrl + "notice";
   static final String update = baseUrl + "update";
-  static final String upcomingPhone = baseUrl + "upcoming_phone";
   static final String newPhone = baseUrl + "new_phone";
   static final String favorites = baseUrl + "favorites";
   static final String favoritesDel = baseUrl + "favorites_del";

@@ -52,7 +52,7 @@ android {
         applicationId "top.receivesms.app"
         minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 160 //flutterVersionCode.toInteger()s
+        versionCode 1615 //flutterVersionCode.toInteger()s
         versionName flutterVersionName
         multiDexEnabled true
     }

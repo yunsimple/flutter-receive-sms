@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
@@ -32,7 +33,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this); // 开屏广告 1.
     isMyBadgeShow.value = LocalStorage().getBool('isMyBadgeShow') ?? false;
     try {
-      HttpUtils.post(Api.newPhone).then((response) {
+      HttpUtils.post(Api.newPhone, options: buildCacheOptions(const Duration(days: 1))).then((response) {
         log('upcoming phone = $response');
         if (response['error_code'] == 0) {
           if(response['data']['newPhoneCount'] > 0){

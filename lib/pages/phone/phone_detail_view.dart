@@ -318,8 +318,6 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
               const SizedBox(
                 height: 10,
               ),
-
-              /// todo 样式需要更改，太难看
               Text('下拉页面刷新以获取新消息'.tr),
               Text('新消息将在大约30秒后到达'.tr),
               Text(

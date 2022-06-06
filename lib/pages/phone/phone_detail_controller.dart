@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -159,7 +160,7 @@ class PhoneDetailController extends GetxController {
   fetchMessageList(String phone, {int page = 1}) async {
     Map<String, dynamic>? params = {'phone': phone, 'page': page};
     try {
-      await HttpUtils.post(Api.getMessage, data: params).then((response) async {
+      await HttpUtils.post(Api.getMessage, data: params, options: buildCacheOptions(const Duration(seconds: 5))).then((response) async {
         if (response['error_code'] == 0 && response['data']['message'].length > 0) {
           numberType.value = 1;
           if (page == 1 && messageList.isNotEmpty) {

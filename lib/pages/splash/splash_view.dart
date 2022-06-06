@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -102,7 +104,7 @@ class _SplashState extends State<SplashView> {
     // 请求notice数据
     if (RemoteConfigApi().getBool('noticeSwitch')) {
       try{
-        HttpUtils.post(Api.notice).then((response) {
+        HttpUtils.post(Api.notice, options: buildCacheOptions(const Duration(hours: 6))).then((response) {
           if (response['error_code'] == 0 && response['data'].length > 0) {
             LocalStorage().setJSON('notice', response['data']);
           }

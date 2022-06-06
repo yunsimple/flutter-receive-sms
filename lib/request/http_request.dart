@@ -1,11 +1,13 @@
+import 'package:ReceiveSMS/utils/api.dart';
 import 'package:dio/dio.dart';
 // 拦截器
-import '../../request/interceptor/cache.dart';
 import '../../request/interceptor/dio_logger.dart';
 import '../../request/interceptor/error.dart';
 import '../../request/interceptor/request.dart';
 import '../../request/interceptor/response.dart';
 import '../utils/config.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 
 class Http {
   static final Http _instance = Http._internal();
@@ -29,30 +31,24 @@ class Http {
     dio.interceptors.add(ResponseInterceptor());
     // 添加error拦截器
     dio.interceptors.add(ErrorInterceptor());
-    // // 添加cache拦截器
-    dio.interceptors.add(NetCacheInterceptor());
-    // // 添加重试retry拦截器
-/*    dio.interceptors.add(
-      RetryOnConnectionChangeInterceptor(
-        requestRetrier: DioConnectivityRequestRetrier(
-          dio: dio,
-          connectivity: Connectivity(),
-        ),
-      ),
-    );*/
-
-    // 在调试模式下需要抓包调试，所以我们使用代理，并禁用HTTPS证书校验
-    // if (PROXY_ENABLE) {
-    //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-    //       (client) {
-    //     client.findProxy = (uri) {
-    //       return "PROXY $PROXY_IP:$PROXY_PORT";
-    //     };
-    //     //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
-    //     client.badCertificateCallback =
-    //         (X509Certificate cert, String host, int port) => true;
-    //   };
-    // }
+    // 添加重试retry拦截器
+    dio.interceptors.add(RetryInterceptor(
+      dio: dio,
+      logPrint: print, // specify log function (optional)
+      retries: 3, // retry count (optional)
+      retryDelays: const [
+        // set delays between retries (optional)
+        Duration(seconds: 1), // wait 1 sec before first retry
+        Duration(seconds: 2), // wait 2 sec before second retry
+        Duration(seconds: 3), // wait 3 sec before third retry
+      ],
+    ));
+    // 添加cache拦截器
+    dio.interceptors.add(DioCacheManager(
+        CacheConfig(
+            baseUrl: Api.baseUrl,
+            defaultMaxAge: const Duration(minutes: 30)
+        )).interceptor);
   }
 
   // 初始化公共属性
@@ -110,20 +106,8 @@ class Http {
     Map<String, dynamic>? params,
     Options? options,
     CancelToken? cancelToken,
-    bool refresh = false,
-    bool noCache = !cacheEnable,
-    String? cacheKey,
-    bool cacheDisk = false,
   }) async {
     Options requestOptions = options ?? Options();
-    requestOptions = requestOptions.copyWith(
-      extra: {
-        "refresh": refresh,
-        "noCache": noCache,
-        "cacheKey": cacheKey,
-        "cacheDisk": cacheDisk,
-      },
-    );
     Map<String, dynamic>? _authorization = getAuthorizationHeader();
     if (_authorization != null) {
       requestOptions = requestOptions.copyWith(headers: _authorization);

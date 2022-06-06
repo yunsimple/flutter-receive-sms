@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../common/auth.dart';
 import '../../utils/tools.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 
 ///改成单例
 class TokenHttp {
@@ -17,9 +18,22 @@ class TokenHttp {
     dio = Dio(options);
     dio.interceptors.add(QueuedInterceptorsWrapper(
       onRequest: (options, handler) async{
-        log('TokenHttp QueuedInterceptorsWrapper onRequest');
+        log('TokenHttp 排除拦截 onRequest');
         handler.next(options);
       },
+    ));
+    // 添加重试retry拦截器
+    dio.interceptors.add(RetryInterceptor(
+      dio: dio,
+      logPrint: print, // specify log function (optional)
+      retries: 5, // retry count (optional)
+      retryDelays: const [ // set delays between retries (optional)
+        Duration(seconds: 1), // wait 1 sec before first retry
+        Duration(seconds: 2), // wait 2 sec before second retry
+        Duration(seconds: 3), // wait 3 sec before third retry
+        Duration(seconds: 3), // wait 3 sec before third retry
+        Duration(seconds: 3), // wait 3 sec before third retry
+      ],
     ));
   }
 

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../common/admob.dart';
@@ -181,7 +182,7 @@ class EmailController extends GetxController with StateMixin<dynamic> {
   void fetchMailList() async {
     if (mailSiteList.first == "@") {
       try {
-        await HttpUtils.post(Api.getMailSite).then((response) {
+        await HttpUtils.post(Api.getMailSite, options: buildCacheOptions(const Duration(days: 1))).then((response) {
           if(response['error_code'] == 0){
             mailSiteList.removeAt(0);
             mailSiteList = response['data'].cast<String>();

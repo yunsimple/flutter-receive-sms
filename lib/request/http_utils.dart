@@ -1,7 +1,6 @@
 import 'package:ReceiveSMS/utils/config.dart';
 import 'package:dio/dio.dart';
 import '../../request/http_request.dart';
-import '../../request/interceptor/cache.dart';
 
 class HttpUtils {
   static void init({
@@ -24,7 +23,6 @@ class HttpUtils {
     Options? options,
     CancelToken? cancelToken,
     bool refresh = false,
-    bool noCache = !cacheEnable,
     String? cacheKey,
     bool cacheDisk = false,
   }) async {
@@ -33,9 +31,6 @@ class HttpUtils {
       params: params,
       options: options,
       cancelToken: cancelToken,
-      refresh: refresh,
-      noCache: noCache,
-      cacheKey: cacheKey,
     );
   }
 

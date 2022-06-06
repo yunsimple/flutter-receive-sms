@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import '../../request/http_utils.dart';
@@ -47,7 +48,7 @@ class CountryController extends GetxController with StateMixin<dynamic> {
   Future<bool> fetchCountryList({int page = 1}) async {
     try {
       Map<String, dynamic> data = {'page': page};
-      return await HttpUtils.post(Api.getCountry, data: data).then((response) {
+      return await HttpUtils.post(Api.getCountry, data: data, options: buildCacheOptions(const Duration(days: 7), subKey: 'page=$page')).then((response) {
         requestError = 0;
         log('Country列表获取成功');
         if (response['error_code'] == 0) {
