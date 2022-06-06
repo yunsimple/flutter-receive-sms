@@ -42,7 +42,6 @@ class RemoteConfigApi {
       'phone': '{"adPhoneNativeIndex":"1,4,9","adPhoneNativeSize":"random"}',
     });
 
-    log('RemoteConfig获取 lastFetchStatus = ${config.lastFetchStatus}');
     //从服务器获取新数据并激活值
     if (config.lastFetchStatus == RemoteConfigFetchStatus.noFetchYet || config.lastFetchStatus == RemoteConfigFetchStatus.failure) {
       // 第一次启动时
