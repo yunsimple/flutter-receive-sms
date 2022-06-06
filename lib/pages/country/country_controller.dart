@@ -61,7 +61,11 @@ class CountryController extends GetxController with StateMixin<dynamic> {
 
           change(countryList, status: ApiRequest(response['error_code']).errorCode());
         } else {
-          Tools.toast('全部加载完成'.tr, type: 'info');
+          if(page > 1){
+            Tools.toast('全部加载完成'.tr, type: 'info');
+          }else{
+            change(countryList, status: ApiRequest(response['error_code']).errorCode());
+          }
         }
         return true;
       }).catchError((e) {

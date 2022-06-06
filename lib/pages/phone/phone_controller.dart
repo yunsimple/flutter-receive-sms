@@ -93,6 +93,8 @@ class PhoneController extends GetxController with StateMixin<dynamic> {
         } else if (response['error_code'] == 3000) {
           if (page > 1) {
             Tools.toast('全部加载完成'.tr, type: 'info');
+          }else{
+            change(phoneList, status: ApiRequest(response['error_code']).errorCode());
           }
         }
         return true;

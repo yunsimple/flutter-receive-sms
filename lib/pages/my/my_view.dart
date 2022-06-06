@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:package_info/package_info.dart';
 import '../../Routes.dart';
 import '../../common/auth.dart';
 import '../../common/language.dart';
@@ -27,7 +28,10 @@ class MyView extends GetView<MyController> {
 /*      floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          log(LocalStorage().getInt('requestNumber'));
+          await PackageInfo.fromPlatform().then((value){
+            log(value.version);
+            log(value.buildNumber);
+          });
 
         },
         tooltip: 'Increment',
