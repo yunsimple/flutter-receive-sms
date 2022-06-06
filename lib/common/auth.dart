@@ -17,7 +17,6 @@ import '../pages/home/home_controller.dart';
 class Auth{
   static Auth? _instance;
   static late User? firebaseUserInfo;
-  late GoogleSignInAccount? googleUserInfo;
   FirebaseAuth auth = FirebaseAuth.instance;
   final googleSignIn = GoogleSignIn();
 
@@ -185,7 +184,7 @@ class Auth{
 
   ///通过jwt token，获取到请求数据的access_token 和 refresh_token
   Future<bool> getToken() async{
-    //log('Begin getToken');
+    log('Begin getToken');
     String? jwt = await getIdToken();
     if(jwt == null){
       bool anonymous = await anonymousLogin();

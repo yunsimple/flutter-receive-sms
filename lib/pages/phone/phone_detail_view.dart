@@ -198,6 +198,7 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
                 child: LoadingButton(
                   title: '观看广告获得奖励'.tr + ' (+${controller.rewardCoins})',
                   onPress: () async {
+                    // todo 如果中途切换账号，前一个预加载的广告奖励不会记在当在
                     if (Admob().rewardedAd == null) {
                       await Future.delayed(const Duration(seconds: 2));
                     } else {

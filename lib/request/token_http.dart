@@ -19,6 +19,7 @@ class TokenHttp {
     dio.interceptors.add(QueuedInterceptorsWrapper(
       onRequest: (options, handler) async{
         log('TokenHttp 排除拦截 onRequest');
+        log('TokenHttp 请求地址 = ${options.path}');
         handler.next(options);
       },
     ));

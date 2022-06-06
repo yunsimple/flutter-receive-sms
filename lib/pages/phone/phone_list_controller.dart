@@ -64,7 +64,11 @@ class PhoneListController extends GetxController with StateMixin<dynamic> {
   Future<bool> fetchPhoneList({required countryID, int page = 1}) async {
     try {
       Map<String, dynamic> data = {'country_id': countryID, 'page': page};
-      return await HttpUtils.post(Api.getPhone, data: data, options: buildCacheOptions(const Duration(minutes: 1))).then((response) async {
+      Options cacheOptions = Options();
+      if(countryID != 'favorites'){
+        cacheOptions = buildCacheOptions(const Duration(minutes: 1));
+      }
+      return await HttpUtils.post(Api.getPhone, data: data, options: cacheOptions).then((response) async {
         log('Phone 加载完成');
         requestError = 0;
         if (response['error_code'] == 0) {

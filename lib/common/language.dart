@@ -147,6 +147,9 @@ class Language extends Translations {
       '正在进入系统': '正在進入系統...',
       '请关闭广告插件': '為了更好的服務到您，請您關閉屏蔽廣告插件，感謝您的支持！ ！ ！',
       '出现异常请重新启动APP': '出現異常,請重新啟動APP!!!',
+      '是否与本地账号进行合并': '是否與本地賬號進行合併',
+      '账户合并失败': '賬戶合併失敗,如需合併,請聯繫客服處理',
+      '本地账户登陆异常': '本地賬戶登陸異常,合併失敗',
 
     },
     'en': {
@@ -198,8 +201,8 @@ class Language extends Translations {
       // 号码
       '随机号码': 'Random',
       '收藏': 'Favorites',
-      '无法接收': 'Fail?',
-      '关于无法接收': 'About unable to receive sms',
+      '无法接收': 'Unavailable?',
+      '关于无法接收': 'About unavailable to receive sms',
       '为什么接收不到': 'If the number cannot be received after multiple refreshes, it is possible that the number is used by too many people and the verification code is sent frequently, so that the app or website you want to register does not really send the verification code. It is not that we did not receive it. The solution is to Wait for a while and then try to refresh, or change the number to receive again \n\nClick OK to report to us that the number is not receiving correctly',
       '下拉页面刷新以获取新消息': 'Pull down the page to refresh to get new message.',
       '新消息将在大约30秒后到达': 'New message will arrive in about 30 seconds.',
@@ -284,6 +287,10 @@ class Language extends Translations {
       '正在进入系统': 'Entering system...',
       '请关闭广告插件': 'In order to serve you better, please close the Adblock plugin, thank you for your support! ! !',
       '出现异常请重新启动APP': 'There is an exception, please restart the APP !!!',
+      '是否与本地账号进行合并': 'Whether to merge with local accounts',
+      '账户合并失败': 'Account merger failed, if you need to merge, please contact customer service for processing',
+      '本地账户登陆异常': 'The login of the local account is abnormal and the merge fails.',
+
     },
     'pt': {
       // 系统
@@ -334,8 +341,8 @@ class Language extends Translations {
       // 号码
       '随机号码': 'aleatório',
       '收藏': 'coletar',
-      '无法接收': 'erro?',
-      '关于无法接收': 'Sobre a incapacidade de receber SMS',
+      '无法接收': 'Indisponível?',
+      '关于无法接收': 'Sobre não poder receber',
       '为什么接收不到': 'Se o número não puder ser recebido após várias atualizações, pode ser que o número seja usado por muitas pessoas e o código de verificação seja enviado com frequência, de modo que o aplicativo ou site que você deseja registrar não envie realmente o código de verificação. não que não tenhamos recebido. A solução é aguardar um pouco e tentar atualizar ou alterar o número para receber novamente \n\nClique em OK para nos informar que o número foi recebido de forma anormal',
       '下拉页面刷新以获取新消息': 'Puxe a página para baixo para atualizar para novas mensagens.',
       '新消息将在大约30秒后到达': 'Novas mensagens chegarão em cerca de 30 segundos.',
@@ -418,6 +425,9 @@ class Language extends Translations {
       '正在进入系统': 'entrando no sistema...',
       '请关闭广告插件': 'Para melhor atendê-lo, feche o plug-in de bloqueio de anúncios, obrigado por seu apoio！ ！ ！',
       '出现异常请重新启动APP': 'Se ocorrer uma exceção, reinicie o APP!!!',
+      '是否与本地账号进行合并': 'Se deve ser mesclado com a conta local',
+      '账户合并失败': 'A fusão da conta falhou, se você precisar mesclar, entre em contato com o atendimento ao cliente',
+      '本地账户登陆异常': 'O login da conta local está anormal e a fusão falha',
 
     },
     'de': {
@@ -555,6 +565,10 @@ class Language extends Translations {
       '正在进入系统': 'Eingabesystem...',
       '请关闭广告插件': 'Um Ihnen einen besseren Service bieten zu können, schließen Sie bitte das Werbeblocker-Plug-in. Vielen Dank für Ihre Unterstützung! ! !',
       '出现异常请重新启动APP': 'Es gibt eine Ausnahme, bitte starten Sie die APP neu !!!',
+      '是否与本地账号进行合并': 'Ob eine Zusammenführung mit dem lokalen Konto erfolgen soll',
+      '账户合并失败': 'Die Kontozusammenführung ist fehlgeschlagen. Wenn Sie eine Zusammenführung benötigen, wenden Sie sich bitte an den Kundendienst',
+      '本地账户登陆异常': 'Die Anmeldung des lokalen Kontos ist fehlerhaft und die Zusammenführung schlägt fehl',
+
     }
 
 

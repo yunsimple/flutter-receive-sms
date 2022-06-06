@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as tr;
 import '../../common/auth.dart';
-import '../../common/remote_config.dart';
 import '../../common/secure_storage.dart';
 import '../../request/token_http.dart';
 import '../../utils/config.dart';

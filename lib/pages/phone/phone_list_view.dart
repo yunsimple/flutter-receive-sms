@@ -37,24 +37,24 @@ class PhoneListView extends GetView<PhoneListController> {
         return controller.isShowFloatBtn.isFalse
             ? const SizedBox()
             : FloatingActionButton(
-          onPressed: () async {
-            controller.scrollController.animateTo(
-              .0,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.ease,
-            );
-          },
-          tooltip: 'Top',
-          child: const Icon(PhosphorIcons.arrow_fat_lines_up_fill),
-          mini: true,
-        );
+                onPressed: () async {
+                  controller.scrollController.animateTo(
+                    .0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+                tooltip: 'Top',
+                child: const Icon(PhosphorIcons.arrow_fat_lines_up_fill),
+                mini: true,
+              );
       }),
     );
   }
 
   _phoneListView() {
     return controller.obx(
-          (data) {
+      (data) {
         return EasyRefresh(
           child: ListView.separated(
             itemCount: data.length,
@@ -67,7 +67,11 @@ class PhoneListView extends GetView<PhoneListController> {
             controller: controller.scrollController,
           ),
           onRefresh: _onRefresh,
-          onLoad: _onLoad,
+          onLoad: controller.countryID == 'favorites'
+              ? null
+              : () async {
+                  _onLoad();
+                },
         );
       },
       onEmpty: EasyRefresh(onRefresh: _onRefresh, child: emptyPageWidget(title: '列表为空'.tr, subTitle: '尝试下拉刷新'.tr)),
@@ -84,16 +88,16 @@ class PhoneListView extends GetView<PhoneListController> {
           if (index < 10) {
             return controller.isAdShowList.contains(index)
                 ? Container(
-              child: AdWidget(ad: controller.phoneList[index]),
-              height: controller.phoneList[index].factoryId == 'nativeBigAd'
-                  ? 340.0
-                  : 120.0, // big 340.0 small 120.0,
-              alignment: Alignment.center,
-            )
+                    child: AdWidget(ad: controller.phoneList[index]),
+                    height: controller.phoneList[index].factoryId == 'nativeBigAd'
+                        ? 340.0
+                        : 120.0, // big 340.0 small 120.0,
+                    alignment: Alignment.center,
+                  )
                 : Text(
-              '加载中'.tr,
-              semanticsLabel: '加载中'.tr,
-            );
+                    '加载中'.tr,
+                    semanticsLabel: '加载中'.tr,
+                  );
           }
           return Container(
             child: AdWidget(ad: controller.phoneList[index]),
@@ -219,15 +223,15 @@ class PhoneListView extends GetView<PhoneListController> {
                               },
                               child: type == '2'
                                   ? AutoSizeText(
-                                typeTitle,
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                                semanticsLabel: typeTitle,
-                              )
+                                      typeTitle,
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                      semanticsLabel: typeTitle,
+                                    )
                                   : Text(
-                                typeTitle,
-                                style: const TextStyle(fontSize: 12, color: Colors.green),
-                                semanticsLabel: typeTitle,
-                              ),
+                                      typeTitle,
+                                      style: const TextStyle(fontSize: 12, color: Colors.green),
+                                      semanticsLabel: typeTitle,
+                                    ),
                             )
                           ],
                         ),
@@ -310,7 +314,7 @@ class PhoneListView extends GetView<PhoneListController> {
   Future<void> _onLoad() async {
     controller.page = controller.page + 1;
     bool isOk = await controller.fetchPhoneList(page: controller.page, countryID: controller.countryID);
-    if(isOk == false){
+    if (isOk == false) {
       controller.scrollController.animateTo(
         controller.currentScroll - 60,
         duration: const Duration(milliseconds: 500),

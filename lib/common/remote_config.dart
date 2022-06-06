@@ -22,7 +22,7 @@ class RemoteConfigApi {
     await config.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: FIREBASE_TIMEOUT),
 
-      /// todo 生产模式，这里的值需要更改
+      /// 生产模式，这里的值需要更改
       minimumFetchInterval: const Duration(hours: 6),
     ));
 
@@ -42,8 +42,9 @@ class RemoteConfigApi {
       'phone': '{"adPhoneNativeIndex":"1,4,9","adPhoneNativeSize":"random"}',
     });
 
+    log('RemoteConfig获取 lastFetchStatus = ${config.lastFetchStatus}');
     //从服务器获取新数据并激活值
-    if (config.lastFetchStatus == RemoteConfigFetchStatus.noFetchYet) {
+    if (config.lastFetchStatus == RemoteConfigFetchStatus.noFetchYet || config.lastFetchStatus == RemoteConfigFetchStatus.failure) {
       // 第一次启动时
       await fetchAndActivate();
     } else {
@@ -52,7 +53,6 @@ class RemoteConfigApi {
           .activate();
           //.then((value) => log("Remote Config activate激活完成，可以使用", icon: 'ok', time: true))
           //.catchError((onError) => log("Remote Config激活失败 = $onError", icon: 'error'));
-
       // 重新拉取最新值，供下次使用
       fetch();
     }
@@ -73,7 +73,7 @@ class RemoteConfigApi {
       //log("Remote Config fetchAndActivate激活完成，可以使用", icon: 'ok', time: true);
       return true;
     }).catchError((onError) {
-      Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 10);
+      Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 30);
       //log("Remote Config激活失败 = $onError", icon: 'error');
       return false;
     });
@@ -81,7 +81,7 @@ class RemoteConfigApi {
 
   void fetch() {
     config.fetch().then((value) => log('Remote Config fetch远程获取完成，等待下次启动激活')).catchError((e) {
-      Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 10);
+      Tools.toast('无法连接到Google,部分功能将无法使用'.tr, type: 'error', time: 30);
       //log('Remote Config fetch远程获取失败');
     });
   }

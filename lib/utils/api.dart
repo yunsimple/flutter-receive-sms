@@ -21,4 +21,5 @@ class Api {
   static final String getMy = baseUrl + "my";
   static final String buyNumber = baseUrl + "buy_number";
   static final String coins = baseUrl + "coins";
+  static final String merge = baseUrl + "merge";
 }

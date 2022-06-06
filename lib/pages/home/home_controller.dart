@@ -130,7 +130,7 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     final cfg = AppcastConfiguration(url: versionUrl, supportedOS: ['android']);
     updateInfo = Upgrader(
       appcastConfig: cfg,
-      // todo 上线需要更改
+      // 上线需要更改
       durationUntilAlertAgain: const Duration(days: 3),
       debugLogging: false,
     );

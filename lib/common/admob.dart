@@ -44,7 +44,6 @@ class Admob {
     // 设置原生广告的 加载广告前，需要检查参数，配置
     adSwitch = RemoteConfigApi().getJson('adSwitch');
     nvAdSize = adSwitch['nativeSize'];
-    log('adSwitch = $adSwitch');
   }
 
   static final Admob _instance = Admob._internal();

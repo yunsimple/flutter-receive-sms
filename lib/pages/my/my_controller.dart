@@ -79,9 +79,11 @@ class MyController extends GetxController {
 
   /// 登陆
   login() async {
-    await Get.toNamed(Api.login)?.then((value) {
+    String? oldUserID = Auth().currentUser?.uid;
+    await Get.toNamed(Api.login)?.then((value) async {
       log('登陆成功返回 = $value');
       if (value == 'LoginSuccess') {
+        await merge(oldUserID);
         getMy();
         Tools.toast('登陆成功'.tr);
         /// 动态更新用户
@@ -100,9 +102,14 @@ class MyController extends GetxController {
 
   /// 注册
   register() async {
-    await Get.toNamed(Api.register)?.then((value) {
+    String? oldUserID = Auth().currentUser?.uid;
+    await Get.toNamed(Api.register)?.then((value) async {
       log('注册成功返回，已经登陆 = $value');
       if (value == 'RegisterLoginSuccess') {
+        bool isMerge = await merge(oldUserID);
+        if(!isMerge){
+          Tools.toast('账户合并失败'.tr, type: 'error');
+        }
         getMy();
         /// 动态更新登陆显示用户名
         Tools.toast('注册成功'.tr);
@@ -117,6 +124,36 @@ class MyController extends GetxController {
         }
       }
     });
+  }
+
+  /// 合并账户
+  Future<bool> merge(String? oldUserID) async {
+    if(oldUserID == null){
+      Tools.toast('本地账户登陆异常'.tr, type: 'info');
+      return false;
+    }
+    final dialog = await showOkCancelAlertDialog(
+      context: Get.context!,
+      message: '是否与本地账号进行合并'.tr,
+      isDestructiveAction: true,
+      barrierDismissible: false
+    );
+    if (dialog == OkCancelResult.ok){
+      try{
+        //String oldUserId = Auth().current
+        return await HttpUtils.post(Api.merge, data: {'oldUserId': oldUserID}).then((response){
+          if(response['error_code'] == 0){
+            return true;
+          }
+          return false;
+        }).catchError((e){
+          return false;
+        });
+      } on DioError catch (e){
+        return false;
+      }
+    }
+    return true;
   }
 
   /// 邮箱认证

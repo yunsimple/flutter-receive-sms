@@ -72,13 +72,17 @@ class _SplashState extends State<SplashView> {
     // 初始化RemoteConfig
     await RemoteConfigApi().init();
 
-    // 加载Admob广告
-    MobileAds.instance.initialize();
-/*    MobileAds.instance.updateRequestConfiguration(
-        RequestConfiguration(testDeviceIds: [
-          '8473F26D124D76EAC5DB1A6F9E251D27',
-          'EE5A97F180B7E142CBE2B5772EBA18B4'
-        ]));*/
+    // todo 线上更改 加载Admob广告
+    const bool inProduction = bool.fromEnvironment("dart.vm.product");
+    if(inProduction){
+      MobileAds.instance.initialize();
+    }else{
+      MobileAds.instance.updateRequestConfiguration(
+          RequestConfiguration(testDeviceIds: [
+            '8473F26D124D76EAC5DB1A6F9E251D27',
+            'EE5A97F180B7E142CBE2B5772EBA18B4'
+          ]));
+    }
 
     // 远程配置api请求地址
     String url = RemoteConfigApi().getString('baseUrl');
