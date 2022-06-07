@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/pages/login/privacy.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -261,9 +262,14 @@ class RegisterView extends GetView<RegisterController> {
                             style: regular16pt.copyWith(color: textGrey,fontSize: 14),
                             maxLines: 1,
                           ),
-                          Text(
-                            '隐私条款'.tr,
-                            style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR),fontSize: 14),
+                          GestureDetector(
+                            onTap: (){
+                              Get.to(() => const PrivacyView());
+                            },
+                            child: Text(
+                              '隐私条款'.tr,
+                              style: regular16pt.copyWith(color: const Color(PRIMARYCOLOR),fontSize: 14),
+                            ),
                           ),
                         ],
                       ),

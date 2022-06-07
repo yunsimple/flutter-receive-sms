@@ -63,7 +63,7 @@ class Language extends Translations {
       // 号码
       '随机号码': '隨機號碼',
       '收藏': '收藏號碼',
-      '无法接收': '無法接收?',
+      '无法接收': '無法接收',
       '关于无法接收': '關於無法接收',
       '为什么接收不到': '如果多次刷新都無法接收，那就有可能是该号码使用人數過多，验证码发送频繁，導致您要註冊的app或網站並沒有真正地發送驗證碼，並不是我們沒有接收到，解決辦法就是等一段时间后再尝试刷新，或者更換號碼重新接收 \n\n點擊OK向我們反饋該號碼接收異常',
       '下拉页面刷新以获取新消息': '下拉頁面刷新以獲取新消息.',
@@ -201,7 +201,7 @@ class Language extends Translations {
       // 号码
       '随机号码': 'Random',
       '收藏': 'Favorites',
-      '无法接收': 'Unavailable?',
+      '无法接收': 'Unavailable',
       '关于无法接收': 'About unavailable to receive sms',
       '为什么接收不到': 'If the number cannot be received after multiple refreshes, it is possible that the number is used by too many people and the verification code is sent frequently, so that the app or website you want to register does not really send the verification code. It is not that we did not receive it. The solution is to Wait for a while and then try to refresh, or change the number to receive again \n\nClick OK to report to us that the number is not receiving correctly',
       '下拉页面刷新以获取新消息': 'Pull down the page to refresh to get new message.',
@@ -341,7 +341,7 @@ class Language extends Translations {
       // 号码
       '随机号码': 'aleatório',
       '收藏': 'coletar',
-      '无法接收': 'Indisponível?',
+      '无法接收': 'Indisponível',
       '关于无法接收': 'Sobre não poder receber',
       '为什么接收不到': 'Se o número não puder ser recebido após várias atualizações, pode ser que o número seja usado por muitas pessoas e o código de verificação seja enviado com frequência, de modo que o aplicativo ou site que você deseja registrar não envie realmente o código de verificação. não que não tenhamos recebido. A solução é aguardar um pouco e tentar atualizar ou alterar o número para receber novamente \n\nClique em OK para nos informar que o número foi recebido de forma anormal',
       '下拉页面刷新以获取新消息': 'Puxe a página para baixo para atualizar para novas mensagens.',
@@ -479,7 +479,7 @@ class Language extends Translations {
       // 号码
       '随机号码': 'Zufällig',
       '收藏': 'sammeln',
-      '无法接收': 'Scheitern?',
+      '无法接收': 'Scheitern',
       '关于无法接收': 'Über die Unfähigkeit, SMS zu empfangen',
       '为什么接收不到': 'Wenn die Nummer nach mehreren Aktualisierungen nicht empfangen werden kann, kann es sein, dass die Nummer von zu vielen Personen verwendet wird und der Bestätigungscode häufig gesendet wird, sodass die App oder Website, die Sie registrieren möchten, den Bestätigungscode nicht wirklich sendet nicht, dass wir es nicht erhalten haben. Die Lösung besteht darin, eine Weile zu warten und dann zu versuchen, die Nummer zu aktualisieren oder zu ändern, um sie erneut zu erhalten \n\nKlicken Sie auf OK, um uns zu melden, dass die Nummer nicht normal empfangen wurde',
       '下拉页面刷新以获取新消息': 'Ziehen Sie die Seite nach unten, um sie zu aktualisieren und neue Nachrichten zu erhalten.',

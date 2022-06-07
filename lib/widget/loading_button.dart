@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
@@ -45,12 +46,13 @@ class _LoadingButtonState extends State<LoadingButton> with SingleTickerProvider
         turns: animaController,
         child: Icon(isLoading ? PhosphorIcons.arrows_counter_clockwise : widget.icon, color: widget.iconColor,),
       ),
-      label: Text(
+      label: AutoSizeText(
         widget.title,
         style: TextStyle(
           color: widget.textColor,
         ),
         semanticsLabel: widget.title,
+        maxLines: 1,
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(widget.color),

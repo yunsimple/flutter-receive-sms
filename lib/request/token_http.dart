@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import '../../common/auth.dart';
 import '../../utils/tools.dart';
@@ -36,6 +38,11 @@ class TokenHttp {
         Duration(seconds: 3), // wait 3 sec before third retry
       ],
     ));
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+      print('Dio https 校验');
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
   }
 
   //post方法

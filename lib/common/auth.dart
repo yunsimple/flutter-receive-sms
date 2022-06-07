@@ -272,7 +272,7 @@ class Auth{
         }else if(result['error_code'] == 4004){
           //SecureStorage().read('accessToken').then((value) => log('accessToken = $value'));
           SecureStorage().del(deleteAll: true).then((value) {
-            Tools.toast('出现异常，请重新启动APP'.tr, type: 'error', time: 300);
+            Tools.toast('出现异常请重新启动APP'.tr, type: 'error', time: 300);
             /// todo需要正式包验证一下
             //SecureStorage().read('accessToken').then((value) => log('accessToken = $value'));
             //Restart.restartApp();

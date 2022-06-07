@@ -17,7 +17,7 @@ class ResponseInterceptor extends QueuedInterceptorsWrapper {
     }
 
     /// access token 已经到期的情况
-    if (response.data['error_code'] == 3001) {
+    if (response.data is Map && response.data['error_code'] == 3001) {
       var options = response.requestOptions;
       //log('onResponse token不存在或已经过期，重新获取token');
       int? accessTokenExpire = LocalStorage().getInt('accessTokenExpire');

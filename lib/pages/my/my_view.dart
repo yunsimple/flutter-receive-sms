@@ -1,4 +1,5 @@
 import 'package:ReceiveSMS/common/remote_config.dart';
+import 'package:ReceiveSMS/request/http_utils.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
@@ -24,15 +25,17 @@ class MyView extends GetView<MyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          log(Auth().currentUser?.uid);
+          HttpUtils.get('https://api.receivesms.top/privacy.html').then((value){
+            log(value);
+          });
 
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
-      ),*/
+      ),
       appBar: AppBar(
         title: Text(controller.title),
         //centerTitle: true,

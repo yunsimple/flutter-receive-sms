@@ -58,9 +58,9 @@ class Tools {
     } else if (hourLag < 24 && hourLag >= 1) {
       return "$hourLag hours ago";
     } else if (minLag > 0 && minLag < 60) {
-      return "$minLag minutes ago";
+      return "$minLag min ago";
     } else if (secLag > 0 && secLag < 60) {
-      return "$secLag seconds ago";
+      return "$secLag sec ago";
     } else {
       return "just now";
     }
@@ -87,6 +87,13 @@ class Tools {
       backgroundColor: background,
       colorText: Colors.white,
       borderRadius: 8.0,
+    );
+  }
+
+  /// loading
+  static loading(){
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 

@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:ReceiveSMS/utils/api.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 // 拦截器
 import '../../request/interceptor/dio_logger.dart';
@@ -44,11 +48,14 @@ class Http {
       ],
     ));
     // 添加cache拦截器
-    dio.interceptors.add(DioCacheManager(
-        CacheConfig(
-            baseUrl: Api.baseUrl,
-            defaultMaxAge: const Duration(minutes: 30)
-        )).interceptor);
+    dio.interceptors.add(
+        DioCacheManager(CacheConfig(baseUrl: Api.baseUrl, defaultMaxAge: const Duration(minutes: 30))).interceptor);
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+      print('Dio https 校验');
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
   }
 
   // 初始化公共属性

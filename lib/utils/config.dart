@@ -5,7 +5,7 @@ const int IV_LENGTH = 16;
 // access token过期时间
 const int ACCESS_TOKEN_EXPIRE = 30*60*1000;
 // access token
-const int ACCESS_TOKEN_RESIDUE_TIME = 2*60;
+const int ACCESS_TOKEN_RESIDUE_TIME = 10*60;
 // 开屏广告，多长时间启动一次
 const int ADMOB_OPENAPPAD_TIME_INTERVAAL = 60*1000;
 
