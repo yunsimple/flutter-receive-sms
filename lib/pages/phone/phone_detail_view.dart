@@ -344,33 +344,38 @@ class PhoneDetailView extends GetView<PhoneDetailController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          LoadingButton(
-            title: '随机号码'.tr,
-            icon: PhosphorIcons.shuffle,
-            onPress: () async {
-              await controller.fetchRandomPhone().then((response) {
-                Get.offNamed(
-                  Routes.phoneDetail + '?phone=' + response['phone_num'],
-                  arguments: response,
-                );
-              });
-            },
-            color: Colors.green,
+          SizedBox(
+            width: 115,
+            child: LoadingButton(
+              title: '随机号码'.tr,
+              icon: PhosphorIcons.shuffle,
+              onPress: () async {
+                await controller.fetchRandomPhone().then((response) {
+                  Get.offNamed(
+                    Routes.phoneDetail + '?phone=' + response['phone_num'],
+                    arguments: response,
+                  );
+                });
+              },
+              color: Colors.green,
+            ),
           ),
           const SizedBox(width: 5),
           Obx(() {
-            return LoadingButton(
+            return SizedBox(
+              width: 115,
+              child: LoadingButton(
                 title: '收藏'.tr,
                 icon: controller.isFavoritesShow.isTrue
                     ? PhosphorIcons.bookmarks_simple_fill
                     : PhosphorIcons.bookmark_simple,
                 onPress: () async {
                   controller.switchFavorites();
-                });
+                }),);
           }),
           const SizedBox(width: 5),
           SizedBox(
-            width: 120,
+            width: 135,
             child: LoadingButton(
               title: '无法接收'.tr,
               icon: PhosphorIcons.circle_wavy_question,

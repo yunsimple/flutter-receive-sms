@@ -352,50 +352,55 @@ class MyView extends GetView<MyController> {
 
   loginWidget() {
     return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  controller.login();
-                },
-                child: Text(
-                  '登陆'.tr + ' /',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black54,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.login();
+                  },
+                  child: Text(
+                    '登陆'.tr + ' /',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black54,
+                    ),
+                    maxLines: 1,
                   ),
-                  maxLines: 1,
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  controller.register();
-                },
-                child: Text(
-                  ' ' + '注册'.tr,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black54,
+                GestureDetector(
+                  onTap: () {
+                    controller.register();
+                  },
+                  child: Text(
+                    ' ' + '注册'.tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black54,
+                    ),
+                    maxLines: 1,
                   ),
-                  maxLines: 1,
                 ),
-              ),
-            ],
-          ),
-          Text(
-            '登陆会员后解锁更多功能'.tr,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black45,
+              ],
             ),
-          )
-        ],
+            Expanded(
+              child: AutoSizeText(
+                '登陆会员后解锁更多功能'.tr,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black45,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -403,28 +408,31 @@ class MyView extends GetView<MyController> {
   infoWidget() {
     //User user = controller.userInfo.value as User;
     return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AutoSizeText(
-            controller.email.value,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.black54,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AutoSizeText(
+              controller.email.value,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.black54,
+              ),
+              maxLines: 1,
             ),
-            maxLines: 1,
-          ),
-          AutoSizeText(
-            controller.userInfo.isEmpty ? '欢迎回来'.tr : '金币'.tr + ':${controller.userInfo['coins'].toString()}',
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.black45,
+            AutoSizeText(
+              controller.userInfo.isEmpty ? '欢迎回来'.tr : '金币'.tr + ':${controller.userInfo['coins'].toString()}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.black45,
+              ),
+              maxLines: 1,
             ),
-            maxLines: 1,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

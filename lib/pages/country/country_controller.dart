@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:get/get.dart';
 import '../../request/http_utils.dart';
 import '../../request/interceptor/api_request.dart';
 import '../../utils/api.dart';
 import '../../utils/tools.dart';
-import 'package:get/get.dart';
 
 class CountryController extends GetxController with StateMixin<dynamic> {
   final EasyRefreshController refreshController = EasyRefreshController();

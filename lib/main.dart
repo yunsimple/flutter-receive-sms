@@ -1,6 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui' as ui;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../Routes.dart';
 import '../../common/language.dart';
 import '../../pages/country/country_controller.dart';
@@ -25,11 +29,8 @@ import '../../pages/phone/phone_view.dart';
 import '../../pages/splash/splash_view.dart';
 import '../../utils/config.dart';
 import '../../utils/tools.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'dart:ui' as ui;
-import 'common/local_storage.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import '../../common/local_storage.dart';
+
 
 Future<void> main() async {
   //设置顶部主题颜色

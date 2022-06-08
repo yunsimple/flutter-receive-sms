@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:get/get.dart';
 import '../../Routes.dart';
 import '../../common/notice_bar.dart';
 import '../../utils/api.dart';
-import 'package:get/get.dart';
 import '../../widget/widget.dart';
 import 'country_controller.dart';
 
