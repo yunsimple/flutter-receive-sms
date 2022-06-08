@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/common/loading.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -241,15 +242,17 @@ class LoginView extends GetView<LoginController> {
                     title: 'Google登陆'.tr,
                     color: Colors.red,
                     onPress: () async {
+                      Loading.show(title: '正在登陆Google'.tr);
                       await Auth().googleLogin().then((value) {
-                        log('接收google登陆返回值 = $value');
+                        //log('接收google登陆返回值 = $value');
                         if (value == true) {
-                          log('google登陆返回成功');
+                          //log('google登陆返回成功');
                           Get.back(result: 'LoginSuccess');
                         } else {
                           Tools.toast(value ?? 'Google登陆失败,请检查网络是否连接'.tr, type: 'error', time: 5);
                         }
                       });
+                      Loading.hide();
                     },
                   ),
                 ),

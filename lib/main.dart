@@ -29,6 +29,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 import 'common/local_storage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 Future<void> main() async {
   //设置顶部主题颜色
@@ -60,7 +61,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // 确保在使用其他 Firebase 服务之前调用 `initializeApp`。
   //await Firebase.initializeApp();
 
-  log("接收到firebase messaging后台消息 = ${message.messageId}");
+  //log("接收到firebase messaging后台消息 = ${message.messageId}");
 }
 
 class MyApp extends StatelessWidget {
@@ -92,7 +93,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: Routes.login, page: () => LoginView(), binding: LoginBinding()),
         GetPage(name: Routes.register, page: () => RegisterView(), binding: RegisterBinding()),
       ],
-      enableLog: true,
+      enableLog: false,
+      builder: EasyLoading.init(),
+
     );
   }
 

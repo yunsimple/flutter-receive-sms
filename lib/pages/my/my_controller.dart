@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/common/loading.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class MyController extends GetxController {
   String? storeVersion;
   final HomeController homeController = Get.find<HomeController>();
   var phoneCount = {'vipPhoneCount': 0, 'upcomingPhoneCount': 0, 'favoritesPhoneCount': 0}.obs;  // 各号码数量动态列表
+  var isLoading = false.obs;
 
   @override
   void onInit() async {
@@ -98,6 +100,7 @@ class MyController extends GetxController {
         }
       }
     });
+    Loading.hide();
   }
 
   /// 注册
@@ -124,6 +127,7 @@ class MyController extends GetxController {
         }
       }
     });
+    Loading.hide();
   }
 
   /// 合并账户
@@ -139,19 +143,22 @@ class MyController extends GetxController {
       barrierDismissible: false
     );
     if (dialog == OkCancelResult.ok){
+      Loading.show(title: '合并账户'.tr);
       try{
         //String oldUserId = Auth().current
         return await HttpUtils.post(Api.merge, data: {'oldUserId': oldUserID}).then((response){
           if(response['error_code'] == 0){
             return true;
           }
-          return false;
+          return true;
         }).catchError((e){
           return false;
         });
       } on DioError catch (e){
         return false;
       }
+    }else{
+      Loading.show(title: '正在登陆'.tr);
     }
     return true;
   }

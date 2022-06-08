@@ -1,3 +1,4 @@
+import 'package:ReceiveSMS/common/loading.dart';
 import 'package:ReceiveSMS/pages/login/privacy.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -83,57 +84,6 @@ class RegisterView extends GetView<RegisterController> {
                           },
                         ),
                       ),
-/*                      const SizedBox(
-                        height: 24,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: textWhiteGrey,
-                          borderRadius: BorderRadius.circular(14.0),
-                        ),
-
-                        /// 验证码输入框
-                        child: TextFormField(
-                          controller: controller.codeTextForm,
-                          decoration: InputDecoration(
-                            hintText: '验证码'.tr,
-                            hintStyle: heading6.copyWith(color: textGrey),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            suffixIcon: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Obx(() {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 12.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        String email = controller.emailTextForm.text.trim();
-                                        if (email == '') {
-                                          Tools.toast('用户名不能为空'.tr, type: 'error');
-                                          return;
-                                        }
-                                        controller.startCountDownTime();
-                                      },
-                                      child: Text(
-                                        controller.countDownTitle.value,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xff636363)),
-                                      ),
-                                    ),
-                                  );
-                                })
-                              ],
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.trim().length < 5) {
-                              return "不能少于6位字符".tr;
-                            }
-                            return null;
-                          },
-                        ),
-                      ),*/
                       const SizedBox(
                         height: 24,
                       ),
@@ -296,12 +246,14 @@ class RegisterView extends GetView<RegisterController> {
 
                       /// 验证表单
                       if (_formKey.currentState!.validate()) {
+                        Loading.show(title: '正在注册'.tr);
                         var isRegister = await Auth()
                             .register(controller.emailTextForm.text.trim(), controller.passwordTextForm.text.trim());
                         if (isRegister == true) {
                           log('注册成功,返回个人中心 = $isRegister');
                           Get.back(result: 'RegisterLoginSuccess');
                         }
+                        Loading.hide();
                       }
                     },
                   ),

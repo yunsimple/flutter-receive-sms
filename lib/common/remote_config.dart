@@ -22,7 +22,7 @@ class RemoteConfigApi {
     await config.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: FIREBASE_TIMEOUT),
 
-      /// 生产模式，这里的值需要更改
+      /// todo 生产模式，这里的值需要更改
       minimumFetchInterval: const Duration(hours: 6),
     ));
 
@@ -35,6 +35,7 @@ class RemoteConfigApi {
           '{"adSwitchBanner":true,"adSwitchInterstitial":true,"adSwitchNative":true,"adSwitchOpenApp":true,"adSwitchRewarded":true,"nativeSize":"random"}',
       'noticeSwitch': true,
       'adRewardedCoins': 10,
+      //'rk': 'SsCF5poAfNB4frq5',
       'adPopup':
           '{"isShow":true,"showMode":"random","percentage":50,"ad":["rewarded","interstitial"],"rewardedPercentage":50,"interstitialPercentage":50}',
       'adblock': '{"adPercentage":20,"day":7,"request":100}',

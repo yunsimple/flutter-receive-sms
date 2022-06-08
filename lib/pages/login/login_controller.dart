@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import '../../common/auth.dart';
+import '../../common/loading.dart';
 import '../../common/secure_storage.dart';
 import 'package:get/get.dart';
 import '../../utils/tools.dart';
@@ -59,8 +60,10 @@ class LoginController extends GetxController{
 
   //登陆
   login(String username, String password) async{
+    Loading.show(title: '正在登陆'.tr);
     var isLogin = await Auth().login(username, password);
-    log(isLogin);
+    Loading.hide();
+    //log(isLogin);
     if (isLogin == true) {
       //判断是否保存密码
       if(isChecked.value == true){

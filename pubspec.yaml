@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.6.20+1620
+version: 1.6.28+1628
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -68,9 +68,9 @@ dependencies:
   # 显示Html代码
   flutter_widget_from_html_core: ^0.8.5+3
   # dialog弹窗
-  adaptive_dialog: ^1.6.3
+  adaptive_dialog: ^1.6.4
   # 远程图片缓存
-  #cached_network_image: ^3.2.1
+  cached_network_image: ^3.2.1
   # 上下拉刷新
   #pull_to_refresh: ^2.0.0
   # 文本一行显示
@@ -103,13 +103,12 @@ dependencies:
   url_launcher: ^6.1.2
   # store评分
   #in_app_review: ^2.0.4
-  ## 兼容flutter 3.0
-  cached_network_image: ^3.2.1
   flutter_easyrefresh:
     git:
       url: https://github.com/hkloudou/flutter_easyrefresh.git
       ref: v2-flutter3
-  ## 兼容flutter 3.0
+  # loading
+  flutter_easyloading: ^3.0.5
 
 
   # The following adds the Cupertino Icons font to your application.

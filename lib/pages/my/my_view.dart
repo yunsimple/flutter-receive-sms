@@ -1,9 +1,11 @@
+import 'package:ReceiveSMS/common/loading.dart';
 import 'package:ReceiveSMS/common/remote_config.dart';
-import 'package:ReceiveSMS/request/http_utils.dart';
+import 'package:ReceiveSMS/utils/api.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
@@ -25,17 +27,15 @@ class MyView extends GetView<MyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+/*      floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          HttpUtils.get('https://api.receivesms.top/privacy.html').then((value){
-            log(value);
-          });
+          log(RemoteConfigApi().getString('rk'));
 
         },
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
-      ),
+      ),*/
       appBar: AppBar(
         title: Text(controller.title),
         //centerTitle: true,
@@ -223,6 +223,7 @@ class MyView extends GetView<MyController> {
                           isDestructiveAction: true,
                         );
                         if (dialog == OkCancelResult.ok) {
+                          await DioCacheManager(CacheConfig(baseUrl: Api.baseUrl)).clearAll();
                           SecureStorage().del(deleteAll: true).then((value) async {
                             //Tools.toast('缓存清理成功'.tr);
                             await RemoteConfigApi().fetchAndActivate(minimumFetchInterval: true);
@@ -275,12 +276,14 @@ class MyView extends GetView<MyController> {
                       isDestructiveAction: true,
                     );
                     if (dialog == OkCancelResult.ok) {
+                      Loading.show(title: '正在退出'.tr);
                       await Auth().loginOut().then((value) {
                         controller.email.value = '';
                         controller.avatar.value = '';
                         controller.userInfo.value = {};
                         Tools.toast('账号退出成功'.tr, type: 'info');
                       });
+                      Loading.hide();
                     }
                   },
                   icons: PhosphorIcons.sign_out_light,

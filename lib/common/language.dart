@@ -150,6 +150,11 @@ class Language extends Translations {
       '是否与本地账号进行合并': '是否與本地賬號進行合併',
       '账户合并失败': '賬戶合併失敗,如需合併,請聯繫客服處理',
       '本地账户登陆异常': '本地賬戶登陸異常,合併失敗',
+      '正在登陆': '正在登陸',
+      '正在退出': '正在退出',
+      '正在注册': '正在註冊',
+      '合并账户': '合併賬戶',
+      '正在登陆Google': '正在登陸Google',
 
     },
     'en': {
@@ -290,6 +295,11 @@ class Language extends Translations {
       '是否与本地账号进行合并': 'Whether to merge with local accounts',
       '账户合并失败': 'Account merger failed, if you need to merge, please contact customer service for processing',
       '本地账户登陆异常': 'The login of the local account is abnormal and the merge fails.',
+      '正在登陆': 'logging in',
+      '正在退出': 'exiting',
+      '正在注册': 'Signing up',
+      '合并账户': 'Consolidated accounts',
+      '正在登陆Google': 'Signing in to Google',
 
     },
     'pt': {
@@ -428,6 +438,11 @@ class Language extends Translations {
       '是否与本地账号进行合并': 'Se deve ser mesclado com a conta local',
       '账户合并失败': 'A fusão da conta falhou, se você precisar mesclar, entre em contato com o atendimento ao cliente',
       '本地账户登陆异常': 'O login da conta local está anormal e a fusão falha',
+      '正在登陆': 'logando',
+      '正在退出': 'saindo',
+      '正在注册': 'registrando',
+      '合并账户': 'Contas consolidadas',
+      '正在登陆Google': 'Fazendo login no Google',
 
     },
     'de': {
@@ -568,6 +583,11 @@ class Language extends Translations {
       '是否与本地账号进行合并': 'Ob eine Zusammenführung mit dem lokalen Konto erfolgen soll',
       '账户合并失败': 'Die Kontozusammenführung ist fehlgeschlagen. Wenn Sie eine Zusammenführung benötigen, wenden Sie sich bitte an den Kundendienst',
       '本地账户登陆异常': 'Die Anmeldung des lokalen Kontos ist fehlerhaft und die Zusammenführung schlägt fehl',
+      '正在登陆': 'Einloggen',
+      '正在退出': 'verlassen',
+      '正在注册': 'Registrieren',
+      '合并账户': 'Konsolidierte Konten',
+      '正在登陆Google': 'Anmeldung bei Google',
 
     }
 
